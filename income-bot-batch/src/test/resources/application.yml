@@ -1,0 +1,40 @@
+spring:
+  profiles:
+    include:
+      - core
+    active: local
+  batch.job.names: ${job.name:NONE}
+
+logging.level:
+  com.woowabros: debug
+  #  org.springframework.orm.jpa: DEBUG
+  org.hibernate.SQL: debug
+  #  org.hibernate.type: trace
+  org.springframework.batch.item.database.JpaItemWriter: debug
+
+telegram:
+  bot:
+    name: IncomeNotifier_bot
+    key: test
+---
+spring:
+  profiles: local
+---
+spring:
+  profiles: local
+
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:mem://localhost/~/income-bot;MVCC=TRUE
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+  h2:
+    console.settings.trace: false
+    console:
+      enabled: true
+  jpa:
+    database-platform: H2
+    show-sql: true
+    hibernate:
+      ddl-auto: update

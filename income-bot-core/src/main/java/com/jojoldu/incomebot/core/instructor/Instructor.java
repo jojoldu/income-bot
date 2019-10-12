@@ -7,6 +7,7 @@ package com.jojoldu.incomebot.core.instructor;
  */
 
 import com.jojoldu.incomebot.core.BaseTimeEntity;
+import com.jojoldu.incomebot.core.lecture.Lecture;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +17,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.jojoldu.incomebot.core.instructor.IntervalType.HOUR_1;
+import static javax.persistence.CascadeType.ALL;
 
 @Getter
 @NoArgsConstructor
@@ -39,6 +45,9 @@ public class Instructor extends BaseTimeEntity {
     private String chatId;
     private IntervalType interval;
 
+    @OneToMany(mappedBy = "instructor", cascade = ALL)
+    private List<Lecture> lectures = new ArrayList<>();
+
     @Builder
     Instructor(String chatId, IntervalType interval) {
         this.chatId = chatId;
@@ -50,6 +59,11 @@ public class Instructor extends BaseTimeEntity {
                 .chatId(chatId)
                 .interval(HOUR_1)
                 .build();
+    }
+
+    public void addLecture (Lecture lecture) {
+        this.lectures.add(lecture);
+        lecture.setInstructor(this);
     }
 
     public void updateInterval(IntervalType interval) {

@@ -7,14 +7,18 @@ package com.jojoldu.incomebot.core.lecture;
  */
 
 import com.jojoldu.incomebot.core.BaseTimeEntity;
+import com.jojoldu.incomebot.core.instructor.Instructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Getter
 @NoArgsConstructor
@@ -30,12 +34,20 @@ public class Lecture extends BaseTimeEntity {
     private long beforeScore;
     private long currentScore;
 
+    @ManyToOne
+    @JoinColumn(name = "instructor_id", foreignKey = @ForeignKey(name = "fk_lecture_instructor"))
+    private Instructor instructor;
+
     @Builder(builderClassName = "Signup", builderMethodName = "signup")
     public Lecture(String url, LectureType lectureType) {
         this.url = url;
         this.lectureType = lectureType;
         this.beforeScore = 0;
         this.currentScore = 0;
+    }
+
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
     }
 
     public boolean isUpdated(long currentScore) {
@@ -48,4 +60,6 @@ public class Lecture extends BaseTimeEntity {
             this.currentScore = currentScore;
         }
     }
+
+
 }
