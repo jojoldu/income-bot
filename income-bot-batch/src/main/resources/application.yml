@@ -7,10 +7,7 @@ spring:
   batch.job.names: ${job.name:NONE}
 
 logging.level:
-  com.woowabros: debug
-  #  org.springframework.orm.jpa: DEBUG
   org.hibernate.SQL: debug
-  #  org.hibernate.type: trace
   org.springframework.batch.item.database.JpaItemWriter: debug
 
 ---

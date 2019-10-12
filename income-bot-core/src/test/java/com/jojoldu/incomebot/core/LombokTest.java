@@ -18,7 +18,7 @@ public class LombokTest {
         Instructor instructor = new Instructor();
 
         //when
-        String chatId = instructor.getChatId();
+        Long chatId = instructor.getChatId();
 
         //then
         assertThat(chatId).isNull();
@@ -27,7 +27,7 @@ public class LombokTest {
     @Test
     public void 커스텀Builder가_사용된다() {
         //given
-        String chatId = "chatId";
+        Long chatId = 1234L;
 
         //when
         Instructor instructor = Instructor.signup(chatId);

@@ -13,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +32,8 @@ public class Lecture extends BaseTimeEntity {
     private Long id;
 
     private String url;
+
+    @Enumerated(EnumType.STRING)
     private LectureType lectureType;
     private long beforeScore;
     private long currentScore;

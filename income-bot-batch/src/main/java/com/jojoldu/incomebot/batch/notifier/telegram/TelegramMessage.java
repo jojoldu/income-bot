@@ -14,11 +14,11 @@ import lombok.ToString;
 @Getter
 public class TelegramMessage {
     @JsonProperty("chat_id")
-    private String chatId;
+    private Long chatId;
     private String text;
 
     @Builder
-    public TelegramMessage(String chatId, String text) {
+    public TelegramMessage(Long chatId, String text) {
         this.chatId = chatId;
         this.text = text;
     }

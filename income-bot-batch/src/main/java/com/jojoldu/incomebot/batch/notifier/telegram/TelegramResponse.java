@@ -1,5 +1,6 @@
 package com.jojoldu.incomebot.batch.notifier.telegram;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -26,10 +27,16 @@ public class TelegramResponse {
     private boolean ok;
     private Result result;
 
+    @JsonIgnore
     public LocalDateTime getSendTime() {
         return LocalDateTime.ofInstant(
                 Instant.ofEpochSecond(result.date),
                 TimeZone.getDefault().toZoneId());
+    }
+
+    @JsonIgnore
+    public Chat getChat() {
+        return result.chat;
     }
 
     @ToString
@@ -41,7 +48,25 @@ public class TelegramResponse {
 
         @JsonProperty("message_id")
         private long messageId;
+        private Chat chat;
         private long date;
         private String text;
+    }
+
+    @ToString
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Chat {
+
+        private Long id;
+
+        @JsonProperty("first_name")
+        private String firstName;
+
+        @JsonProperty("last_name")
+        private String lastName;
+
     }
 }

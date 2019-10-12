@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum IntervalType {
-    MIN_1,
+    MIN_10,
     HOUR_1,
     DAY_1
 }

@@ -29,7 +29,7 @@ public class TelegramResponseTest {
     public void 텔레그램_응답이_Dto로_전환된다() throws IOException {
 
         //given
-        String message = "{\"ok\":true,\"result\":{\"message_id\":3,\"from\":{\"id\":test,\"is_bot\":true,\"first_name\":\"\\ub108\\uc758 \\uc218\\uc785\\uc740\",\"username\":\"IncomeNotifier_bot\"},\"chat\":{\"id\":test,\"first_name\":\"\\ub3d9\\uc6b1\",\"last_name\":\"\\uc774\",\"type\":\"private\"},\"date\":1570872227,\"text\":\"테스트입니다.\"}}";
+        String message = "{\"ok\":true,\"result\":{\"message_id\":3,\"from\":{\"id\":1234,\"is_bot\":true,\"first_name\":\"\\ub108\\uc758 \\uc218\\uc785\\uc740\",\"username\":\"IncomeNotifier_bot\"},\"chat\":{\"id\":1234,\"first_name\":\"동욱\",\"last_name\":\"이\",\"type\":\"private\"},\"date\":1570872227,\"text\":\"테스트입니다.\"}}";
 
         //when
         TelegramResponse response = objectMapper.readValue(message, TelegramResponse.class);
@@ -38,6 +38,8 @@ public class TelegramResponseTest {
         assertThat(response.isOk()).isTrue();
         assertThat(response.getResult().getMessageId()).isEqualTo(3);
         assertThat(response.getResult().getText()).isEqualTo("테스트입니다.");
+        assertThat(response.getChat().getFirstName()).isEqualTo("동욱");
+        assertThat(response.getChat().getLastName()).isEqualTo("이");
         assertThat(response.getSendTime()).isEqualTo(LocalDateTime.of(2019,10,12,18,23,47));
     }
 }

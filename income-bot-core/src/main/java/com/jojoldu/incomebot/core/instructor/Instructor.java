@@ -13,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,19 +44,21 @@ public class Instructor extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String chatId;
+    private Long chatId;
+
+    @Enumerated(EnumType.STRING)
     private IntervalType interval;
 
     @OneToMany(mappedBy = "instructor", cascade = ALL)
     private List<Lecture> lectures = new ArrayList<>();
 
     @Builder
-    Instructor(String chatId, IntervalType interval) {
+    Instructor(long chatId, IntervalType interval) {
         this.chatId = chatId;
         this.interval = interval;
     }
 
-    public static Instructor signup(String chatId) {
+    public static Instructor signup(long chatId) {
         return Instructor.builder()
                 .chatId(chatId)
                 .interval(HOUR_1)
