@@ -1,0 +1,9 @@
+dependencies {
+    compile project(':income-bot-core')
+
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework:spring-web' // RestTemplate
+    implementation 'org.jsoup:jsoup:1.12.1' // html parser
+
+    testImplementation 'org.springframework.batch:spring-batch-test'
+}
