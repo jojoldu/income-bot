@@ -33,10 +33,9 @@ import static javax.persistence.CascadeType.ALL;
 @NoArgsConstructor
 @Entity
 @Table(
-        name = "instructors",
         uniqueConstraints = @UniqueConstraint(name = "uni_instructor_chat_id", columnNames = {"chatId"}),
         indexes = {
-                @Index(name = "idx_instructor_interval", columnList = "interval")
+                @Index(name = "idx_instructor_interval", columnList = "intervalType")
         }
 )
 public class Instructor extends BaseTimeEntity {
@@ -48,21 +47,21 @@ public class Instructor extends BaseTimeEntity {
     private Long chatId;
 
     @Enumerated(EnumType.STRING)
-    private IntervalType interval;
+    private IntervalType intervalType;
 
     @OneToMany(mappedBy = "instructor", cascade = ALL)
     private List<Lecture> lectures = new ArrayList<>();
 
     @Builder
-    Instructor(long chatId, IntervalType interval) {
+    Instructor(long chatId, IntervalType intervalType) {
         this.chatId = chatId;
-        this.interval = interval;
+        this.intervalType = intervalType;
     }
 
     public static Instructor signup(long chatId) {
         return Instructor.builder()
                 .chatId(chatId)
-                .interval(HOUR_1)
+                .intervalType(HOUR_1)
                 .build();
     }
 
@@ -72,6 +71,6 @@ public class Instructor extends BaseTimeEntity {
     }
 
     public void updateInterval(IntervalType interval) {
-        this.interval = interval;
+        this.intervalType = interval;
     }
 }

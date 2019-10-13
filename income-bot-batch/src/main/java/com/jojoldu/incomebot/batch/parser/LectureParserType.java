@@ -5,6 +5,8 @@ import com.jojoldu.incomebot.core.lecture.LectureType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
+
 /**
  * Created by jojoldu@gmail.com on 12/10/2019
  * Blog : http://jojoldu.tistory.com
@@ -18,6 +20,13 @@ public enum LectureParserType implements LectureParser {
 
     private final LectureType lectureType;
     private final LectureParser parser;
+
+    public static long parse (String url, LectureType type) {
+        return Arrays.stream(LectureParserType.values())
+                .filter(e -> e.is(type)).findFirst()
+                .map(e -> e.parse(url))
+                .orElse(0L);
+    }
 
     @Override
     public long parse(String url) {

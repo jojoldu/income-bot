@@ -9,9 +9,9 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'com.querydsl:querydsl-jpa'
     compile 'com.querydsl:querydsl-apt'
-    
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'mysql:mysql-connector-java'
+
+    compile 'com.h2database:h2'
+    compile 'mysql:mysql-connector-java'
 }
 
 configurations {

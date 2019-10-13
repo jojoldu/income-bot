@@ -1,5 +1,6 @@
 package com.jojoldu.incomebot.core.lecture;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -8,9 +9,12 @@ import lombok.RequiredArgsConstructor;
  * Github : http://github.com/jojoldu
  */
 
+@Getter
 @RequiredArgsConstructor
 public enum LectureType {
-    YES24,
-    INFLEARN;
+    YES24 ("예스24") ,
+    INFLEARN ("인프런");
+
+    private final String title;
 
 }

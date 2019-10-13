@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,11 +27,15 @@ public class NotifyJobParameter {
 
     @Value("#{jobParameters[interval]}")
     public void setInterval(String interval) {
-        this.interval = IntervalType.valueOf(interval);
+        if(!StringUtils.isEmpty(interval)) {
+            this.interval = IntervalType.valueOf(interval);
+        }
     }
 
     @Value("#{jobParameters[executeTime]}")
     public void setExecuteTime(String executeTime) {
-        this.executeTime = LocalDateTime.parse(executeTime, trimFormatter);
+        if(!StringUtils.isEmpty(executeTime)){
+            this.executeTime = LocalDateTime.parse(executeTime, trimFormatter);
+        }
     }
 }

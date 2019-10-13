@@ -1,10 +1,11 @@
-package com.jojoldu.incomebot.batch.job.reader;
+package com.jojoldu.incomebot.batch.job.notify.reader;
 
 import com.jojoldu.incomebot.TestBatchConfig;
 import com.jojoldu.incomebot.batch.common.QuerydslPagingItemReader;
 import com.jojoldu.incomebot.batch.job.notify.NotifyJobConfiguration;
 import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.instructor.InstructorRepository;
+import com.jojoldu.incomebot.core.instructor.IntervalType;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 
 import static com.jojoldu.incomebot.core.instructor.Instructor.signup;
+import static com.jojoldu.incomebot.core.instructor.IntervalType.DAY_1;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -49,7 +51,7 @@ public class NotifyJobConfigurationReaderTest {
     }
 
     public StepExecution getStepExecution() {
-        JobParameters jobParameters = new JobParametersBuilder()
+        JobParameters jobParameters = new JobParametersBuilder(jobLauncherTestUtils.getUniqueJobParameters())
                 .addString("interval", "HOUR_1")
                 .toJobParameters();
 
@@ -60,7 +62,9 @@ public class NotifyJobConfigurationReaderTest {
     public void 해당되는_interval_instructor이_조회된다() throws Exception {
         //given
         int expected = 123;
-        instructorRepository.saveAll(Arrays.asList(signup(expected), signup(567)));
+        Instructor unExpected = signup(567);
+        unExpected.updateInterval(DAY_1);
+        instructorRepository.saveAll(Arrays.asList(signup(expected), unExpected));
 
         reader.open(new ExecutionContext());
 

@@ -48,7 +48,7 @@ public class NotifyJobConfiguration {
     }
 
     @Bean(BEAN_PREFIX+"jobParameter")
-    @JobScope
+    @StepScope
     public NotifyJobParameter jobParameter() {
         return new NotifyJobParameter();
     }
@@ -85,7 +85,7 @@ public class NotifyJobConfiguration {
     public QuerydslPagingItemReader<Instructor> reader() {
         return new QuerydslPagingItemReader<>(emf, chunkSize, queryFactory -> queryFactory
                 .selectFrom(instructor)
-                .where(instructor.interval.eq(jobParameter.getInterval()))
+                .where(instructor.intervalType.eq(jobParameter.getInterval()))
         );
     }
 //
