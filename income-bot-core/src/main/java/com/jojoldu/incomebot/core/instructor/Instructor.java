@@ -33,9 +33,10 @@ import static javax.persistence.CascadeType.ALL;
 @NoArgsConstructor
 @Entity
 @Table(
+        name = "instructors",
         uniqueConstraints = @UniqueConstraint(name = "uni_instructor_chat_id", columnNames = {"chatId"}),
         indexes = {
-                @Index(name = "idx_instructor_interval", columnList = "idx_instructor_interval")
+                @Index(name = "idx_instructor_interval", columnList = "interval")
         }
 )
 public class Instructor extends BaseTimeEntity {
