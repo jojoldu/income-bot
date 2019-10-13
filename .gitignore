@@ -7,7 +7,7 @@ build/
 
 application-bot.yml
 TelegramNotifierTest.java
-
+generated
 
 ### STS ###
 .apt_generated
