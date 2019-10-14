@@ -19,7 +19,6 @@ import java.time.ZoneId;
 import java.util.List;
 
 import static com.jojoldu.incomebot.core.lecture.LectureType.INFLEARN;
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -54,7 +53,7 @@ public class NotifyJobProcessorTest {
         //then
         assertThat(result.size()).isEqualTo(1);
         NotifyHistory history = result.get(0).getHistories().get(0);
-        assertHistory(history, format("[인프런] %s가 %d만큼 증가 하였습니다.", goods, NEW_SCORE));
+        assertHistory(history, "[인프런] \"IntelliJ 를 시작하시는 분들을 위한 가이드\"가 +100 되어 현재 100 입니다.");
     }
 
     @Test
@@ -73,8 +72,8 @@ public class NotifyJobProcessorTest {
 
         //then
         assertThat(result.size()).isEqualTo(2);
-        assertHistory(result.get(0).getHistories().get(0), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods1, NEW_SCORE));
-        assertHistory(result.get(1).getHistories().get(0), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods2, NEW_SCORE));
+        assertHistory(result.get(0).getHistories().get(0), "[인프런] \"IntelliJ 를 시작하시는 분들을 위한 가이드\"가 +100 되어 현재 100 입니다.");
+        assertHistory(result.get(1).getHistories().get(0), "[인프런] \"실전! 스프링 부트와 JPA 활용1 - 웹 애플리케이션 개발\"가 +100 되어 현재 100 입니다.");
     }
 
     private void assertHistory(NotifyHistory history, String expectedMessage) {

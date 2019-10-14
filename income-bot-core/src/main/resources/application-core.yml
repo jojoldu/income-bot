@@ -36,6 +36,7 @@ spring:
 
   datasource:
     hikari:
+      username: jojoldu
       driver-class-name: org.mariadb.jdbc.Driver
       idleTimeout: 600000      #10m
       maxLifetime: 1800000     #30m

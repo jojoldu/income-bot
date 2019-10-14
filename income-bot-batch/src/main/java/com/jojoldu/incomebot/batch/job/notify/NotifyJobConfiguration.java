@@ -2,10 +2,10 @@ package com.jojoldu.incomebot.batch.job.notify;
 
 import com.jojoldu.incomebot.batch.common.JpaItemListPersistWriter;
 import com.jojoldu.incomebot.batch.common.QuerydslPagingItemReader;
+import com.jojoldu.incomebot.batch.job.JobChunkSize;
 import com.jojoldu.incomebot.batch.job.notify.parameter.NotifyJobParameter;
 import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.lecture.Lecture;
-import com.jojoldu.incomebot.core.notifyhistory.NotifyHistory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -15,7 +15,6 @@ import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.database.JpaItemWriter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -41,13 +40,7 @@ public class NotifyJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory emf;
     private final NotifyJobParameter jobParameter;
-
-    private int chunkSize;
-
-    @Value("${chunkSize:1000}")
-    public void setChunkSize(int chunkSize) {
-        this.chunkSize = chunkSize;
-    }
+    private final JobChunkSize jobChunkSize;
 
     @Bean(BEAN_PREFIX+"jobParameter")
     @StepScope
@@ -67,7 +60,7 @@ public class NotifyJobConfiguration {
     @JobScope
     public Step step() {
         return stepBuilderFactory.get(BEAN_PREFIX + "step")
-                .<Instructor, List<Lecture>>chunk(chunkSize)
+                .<Instructor, List<Lecture>>chunk(jobChunkSize.getChunkSize())
                 .reader(reader())
                 .processor(processor())
                 .writer(writer())
@@ -77,7 +70,7 @@ public class NotifyJobConfiguration {
     @Bean(BEAN_PREFIX + "reader")
     @StepScope
     public QuerydslPagingItemReader<Instructor> reader() {
-        return new QuerydslPagingItemReader<>(emf, chunkSize, queryFactory -> queryFactory
+        return new QuerydslPagingItemReader<>(emf, jobChunkSize.getChunkSize(), queryFactory -> queryFactory
                 .selectFrom(instructor)
                 .where(instructor.intervalType.eq(jobParameter.getInterval()))
         );

@@ -27,7 +27,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static com.jojoldu.incomebot.core.lecture.LectureType.INFLEARN;
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -96,7 +95,7 @@ public class NotifyJobConfigurationTest {
         List<NotifyHistory> histories = notifyHistoryRepository.findAll();
         assertThat(histories.size()).isEqualTo(1);
         assertThat(histories.get(0).getCurrentScore()).isEqualTo(newScore);
-        assertThat(histories.get(0).getMessage()).contains(format("%d만큼 증가 하였습니다.", newScore));
+        assertThat(histories.get(0).getMessage()).contains("+100");
     }
 
     private void createInstructor(long chatId, String goods, String url) {

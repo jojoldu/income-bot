@@ -5,7 +5,6 @@ import com.jojoldu.incomebot.batch.common.QuerydslPagingItemReader;
 import com.jojoldu.incomebot.batch.job.notify.NotifyJobConfiguration;
 import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.instructor.InstructorRepository;
-import com.jojoldu.incomebot.core.instructor.IntervalType;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,6 +52,7 @@ public class NotifyJobConfigurationReaderTest {
     public StepExecution getStepExecution() {
         JobParameters jobParameters = new JobParametersBuilder(jobLauncherTestUtils.getUniqueJobParameters())
                 .addString("interval", "HOUR_1")
+                .addString("executeTime", "20191014123400")
                 .toJobParameters();
 
         return MetaDataInstanceFactory.createStepExecution(jobParameters);

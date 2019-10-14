@@ -12,6 +12,7 @@ dependencies {
 
     compile 'com.h2database:h2'
     compile 'mysql:mysql-connector-java'
+    compile 'org.mariadb.jdbc:mariadb-java-client'
 }
 
 configurations {

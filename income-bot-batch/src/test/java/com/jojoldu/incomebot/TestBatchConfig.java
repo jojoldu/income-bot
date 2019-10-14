@@ -1,10 +1,11 @@
 package com.jojoldu.incomebot;
 
+import com.jojoldu.incomebot.batch.job.JobChunkSize;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 /**
  * Created by jojoldu@gmail.com on 13/10/2019
@@ -17,4 +18,9 @@ import org.springframework.stereotype.Component;
 @EnableBatchProcessing
 public class TestBatchConfig {
 
+    @Bean
+    @ConditionalOnMissingBean(JobChunkSize.class)
+    public JobChunkSize jobChunkSize() {
+        return new JobChunkSize();
+    }
 }

@@ -3,7 +3,9 @@ package com.jojoldu.incomebot.batch.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.jojoldu.incomebot.batch.job.JobChunkSize;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,12 @@ import static java.time.Duration.ofSeconds;
 @Configuration
 @RequiredArgsConstructor
 public class AppConfig {
+
+    @Bean
+    @ConditionalOnMissingBean(JobChunkSize.class)
+    public JobChunkSize jobChunkSize() {
+        return new JobChunkSize();
+    }
 
     @Bean
     @Primary
