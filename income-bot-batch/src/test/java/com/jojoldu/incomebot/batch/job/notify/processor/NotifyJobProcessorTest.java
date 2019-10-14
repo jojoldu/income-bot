@@ -27,8 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Github : http://github.com/jojoldu
  */
 public class NotifyJobProcessorTest {
-    private static final LocalDateTime requestDateTime = LocalDateTime.of(2019,10,14,0,0,0);
-    private static final Long newScore = 100L;
+    private static final LocalDateTime REQUEST_DATE_TIME = LocalDateTime.of(2019,10,14,0,0,0);
+    private static final Long NEW_SCORE = 100L;
 
     private NotifyJobProcessor processor;
 
@@ -52,7 +52,7 @@ public class NotifyJobProcessorTest {
 
         //then
         assertThat(result.size()).isEqualTo(1);
-        assertHistory(result.get(0), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods, newScore));
+        assertHistory(result.get(0), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods, NEW_SCORE));
     }
 
     @Test
@@ -71,14 +71,14 @@ public class NotifyJobProcessorTest {
 
         //then
         assertThat(result.size()).isEqualTo(2);
-        assertHistory(result.get(0), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods1, newScore));
-        assertHistory(result.get(1), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods2, newScore));
+        assertHistory(result.get(0), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods1, NEW_SCORE));
+        assertHistory(result.get(1), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods2, NEW_SCORE));
     }
 
     private void assertHistory(NotifyHistory history, String expectedMessage) {
         assertThat(history.getMessage()).isEqualTo(expectedMessage);
         assertThat(history.getBeforeScore()).isEqualTo(0);
-        assertThat(history.getCurrentScore()).isEqualTo(newScore);
+        assertThat(history.getCurrentScore()).isEqualTo(NEW_SCORE);
     }
 
     public static class StubTelegramNotifier extends TelegramNotifier {
@@ -91,7 +91,7 @@ public class NotifyJobProcessorTest {
         public TelegramResponse notify(TelegramMessage message) {
             TelegramResponse.Result result = new TelegramResponse.Result();
             ZoneId zoneId = ZoneId.systemDefault();
-            result.setDate(requestDateTime.atZone(zoneId).toEpochSecond());
+            result.setDate(REQUEST_DATE_TIME.atZone(zoneId).toEpochSecond());
             return new TelegramResponse(true, result);
         }
     }
@@ -100,7 +100,7 @@ public class NotifyJobProcessorTest {
 
         @Override
         public long parse(String url, LectureType type) {
-            return newScore;
+            return NEW_SCORE;
         }
     }
 }
