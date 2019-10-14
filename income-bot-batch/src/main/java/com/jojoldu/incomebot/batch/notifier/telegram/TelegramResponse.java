@@ -27,6 +27,11 @@ public class TelegramResponse {
     private boolean ok;
     private Result result;
 
+    public TelegramResponse(boolean ok, Result result) {
+        this.ok = ok;
+        this.result = result;
+    }
+
     @JsonIgnore
     public LocalDateTime getSendTime() {
         return LocalDateTime.ofInstant(

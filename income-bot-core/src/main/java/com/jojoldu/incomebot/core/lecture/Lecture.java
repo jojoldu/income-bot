@@ -78,8 +78,6 @@ public class Lecture extends BaseTimeEntity {
     }
 
     public NotifyHistory notify (long newScore, String message, LocalDateTime notifyDateTime) {
-        this.updateScore(newScore);
-
         NotifyHistory history = NotifyHistory.builder()
                 .beforeScore(currentScore)
                 .currentScore(newScore)
@@ -88,6 +86,7 @@ public class Lecture extends BaseTimeEntity {
                 .build();
 
         this.addHistory(history);
+        this.updateScore(newScore); // 순서 중요 (먼저 실행되면 현재 스코어가 변경됨)
 
         return history;
     }

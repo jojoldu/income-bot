@@ -8,6 +8,7 @@ package com.jojoldu.incomebot.core.instructor;
 
 import com.jojoldu.incomebot.core.BaseTimeEntity;
 import com.jojoldu.incomebot.core.lecture.Lecture;
+import com.jojoldu.incomebot.core.lecture.LectureType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -63,6 +64,11 @@ public class Instructor extends BaseTimeEntity {
                 .chatId(chatId)
                 .intervalType(HOUR_1)
                 .build();
+    }
+
+    public void addLecture (String title, String url, LectureType lectureType) {
+        Lecture lecture = Lecture.init(title, url, lectureType);
+        this.addLecture(lecture);
     }
 
     public void addLecture (Lecture lecture) {

@@ -3,10 +3,12 @@ package com.jojoldu.incomebot.batch.job.notify;
 import com.jojoldu.incomebot.batch.notifier.telegram.TelegramMessage;
 import com.jojoldu.incomebot.batch.notifier.telegram.TelegramNotifier;
 import com.jojoldu.incomebot.batch.notifier.telegram.TelegramResponse;
+import com.jojoldu.incomebot.batch.parser.LectureParserRestTemplate;
 import com.jojoldu.incomebot.batch.parser.LectureParserType;
 import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.lecture.Lecture;
 import com.jojoldu.incomebot.core.notifyhistory.NotifyHistory;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +25,20 @@ import java.util.stream.Collectors;
  */
 
 @Slf4j
+@NoArgsConstructor
 public class NotifyJobProcessor implements ItemProcessor<Instructor, List<NotifyHistory>> {
 
     private TelegramNotifier telegramNotifier;
+    private LectureParserRestTemplate lectureParserRestTemplate;
 
     @Autowired
     public void setTelegramNotifier(TelegramNotifier telegramNotifier) {
         this.telegramNotifier = telegramNotifier;
+    }
+
+    @Autowired
+    public void setLectureParserRestTemplate(LectureParserRestTemplate lectureParserRestTemplate) {
+        this.lectureParserRestTemplate = lectureParserRestTemplate;
     }
 
     @Override
@@ -42,7 +51,7 @@ public class NotifyJobProcessor implements ItemProcessor<Instructor, List<Notify
     }
 
     private Optional<NotifyHistory> notify(Long chatId, Lecture lecture) {
-        long newScore = LectureParserType.parse(lecture.getUrl(), lecture.getLectureType());
+        long newScore = lectureParserRestTemplate.parse(lecture.getUrl(), lecture.getLectureType());
 
         if (lecture.isNotUpdated(newScore)) {
             return Optional.empty();

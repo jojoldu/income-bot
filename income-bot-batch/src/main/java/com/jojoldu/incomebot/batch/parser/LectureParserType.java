@@ -21,13 +21,6 @@ public enum LectureParserType implements LectureParser {
     private final LectureType lectureType;
     private final LectureParser parser;
 
-    public static long parse (String url, LectureType type) {
-        return Arrays.stream(LectureParserType.values())
-                .filter(e -> e.is(type)).findFirst()
-                .map(e -> e.parse(url))
-                .orElse(0L);
-    }
-
     @Override
     public long parse(String url) {
         return this.parser.parse(url);
