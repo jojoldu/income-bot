@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @NoArgsConstructor
-public class NotifyJobProcessor implements ItemProcessor<Instructor, List<NotifyHistory>> {
+public class NotifyJobProcessor implements ItemProcessor<Instructor, List<Lecture>> {
 
     private TelegramNotifier telegramNotifier;
     private LectureParserRestTemplate lectureParserRestTemplate;
@@ -42,7 +42,7 @@ public class NotifyJobProcessor implements ItemProcessor<Instructor, List<Notify
     }
 
     @Override
-    public List<NotifyHistory> process(Instructor item) throws Exception {
+    public List<Lecture> process(Instructor item) throws Exception {
         return item.getLectures().stream()
                 .map(l -> notify(item.getChatId(), l))
                 .filter(Optional::isPresent)
@@ -50,7 +50,7 @@ public class NotifyJobProcessor implements ItemProcessor<Instructor, List<Notify
                 .collect(Collectors.toList());
     }
 
-    private Optional<NotifyHistory> notify(Long chatId, Lecture lecture) {
+    private Optional<Lecture> notify(Long chatId, Lecture lecture) {
         long newScore = lectureParserRestTemplate.parse(lecture.getUrl(), lecture.getLectureType());
 
         if (lecture.isNotUpdated(newScore)) {
@@ -68,6 +68,7 @@ public class NotifyJobProcessor implements ItemProcessor<Instructor, List<Notify
 
         TelegramResponse response = telegramNotifier.notify(message);
 
-        return Optional.of(lecture.notify(newScore, message.getText(), response.getSendTime()));
+        lecture.notify(newScore, message.getText(), response.getSendTime());
+        return Optional.of(lecture);
     }
 }

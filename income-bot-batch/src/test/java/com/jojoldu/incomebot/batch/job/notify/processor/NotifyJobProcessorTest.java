@@ -7,6 +7,7 @@ import com.jojoldu.incomebot.batch.notifier.telegram.TelegramResponse;
 import com.jojoldu.incomebot.batch.notifier.telegram.config.TelegramProperties;
 import com.jojoldu.incomebot.batch.parser.LectureParserRestTemplate;
 import com.jojoldu.incomebot.core.instructor.Instructor;
+import com.jojoldu.incomebot.core.lecture.Lecture;
 import com.jojoldu.incomebot.core.lecture.LectureType;
 import com.jojoldu.incomebot.core.notifyhistory.NotifyHistory;
 import org.junit.Before;
@@ -33,7 +34,7 @@ public class NotifyJobProcessorTest {
     private NotifyJobProcessor processor;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         processor = new NotifyJobProcessor();
         processor.setTelegramNotifier(new StubTelegramNotifier());
         processor.setLectureParserRestTemplate(new StubLectureParserRestTemplate());
@@ -48,11 +49,12 @@ public class NotifyJobProcessorTest {
         item.addLecture(goods, "https://www.inflearn.com/course/intellij-guide#", INFLEARN);
 
         //when
-        List<NotifyHistory> result = processor.process(item);
+        List<Lecture> result = processor.process(item);
 
         //then
         assertThat(result.size()).isEqualTo(1);
-        assertHistory(result.get(0), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods, NEW_SCORE));
+        NotifyHistory history = result.get(0).getHistories().get(0);
+        assertHistory(history, format("[인프런] %s가 %d만큼 증가 하였습니다.", goods, NEW_SCORE));
     }
 
     @Test
@@ -67,12 +69,12 @@ public class NotifyJobProcessorTest {
         item.addLecture(goods2, "https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-JPA-%ED%99%9C%EC%9A%A9-1#", INFLEARN);
 
         //when
-        List<NotifyHistory> result = processor.process(item);
+        List<Lecture> result = processor.process(item);
 
         //then
         assertThat(result.size()).isEqualTo(2);
-        assertHistory(result.get(0), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods1, NEW_SCORE));
-        assertHistory(result.get(1), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods2, NEW_SCORE));
+        assertHistory(result.get(0).getHistories().get(0), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods1, NEW_SCORE));
+        assertHistory(result.get(1).getHistories().get(0), format("[인프런] %s가 %d만큼 증가 하였습니다.", goods2, NEW_SCORE));
     }
 
     private void assertHistory(NotifyHistory history, String expectedMessage) {

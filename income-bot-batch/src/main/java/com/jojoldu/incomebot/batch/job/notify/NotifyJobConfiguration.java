@@ -1,8 +1,11 @@
 package com.jojoldu.incomebot.batch.job.notify;
 
+import com.jojoldu.incomebot.batch.common.JpaItemListPersistWriter;
 import com.jojoldu.incomebot.batch.common.QuerydslPagingItemReader;
 import com.jojoldu.incomebot.batch.job.notify.parameter.NotifyJobParameter;
 import com.jojoldu.incomebot.core.instructor.Instructor;
+import com.jojoldu.incomebot.core.lecture.Lecture;
+import com.jojoldu.incomebot.core.notifyhistory.NotifyHistory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -11,14 +14,13 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
-
-import java.util.function.Function;
+import java.util.List;
 
 import static com.jojoldu.incomebot.core.instructor.QInstructor.instructor;
 
@@ -65,19 +67,11 @@ public class NotifyJobConfiguration {
     @JobScope
     public Step step() {
         return stepBuilderFactory.get(BEAN_PREFIX + "step")
-                .<Instructor, Instructor>chunk(chunkSize)
+                .<Instructor, List<Lecture>>chunk(chunkSize)
                 .reader(reader())
                 .processor(processor())
                 .writer(writer())
                 .build();
-    }
-
-    private ItemWriter<? super Instructor> writer() {
-        return null;
-    }
-
-    private Function<? super Instructor, ? extends Instructor> processor() {
-        return null;
     }
 
     @Bean(BEAN_PREFIX + "reader")
@@ -88,11 +82,19 @@ public class NotifyJobConfiguration {
                 .where(instructor.intervalType.eq(jobParameter.getInterval()))
         );
     }
-//
-//    @Bean(BEAN_PREFIX + "writer")
-//    public JpaItemListPersistWriter<TempTxPayMethodSummary> writer() {
-//        return new JpaItemListPersistWriter<>(new JpaItemPersistWriter<>(emf));
-//    }
+
+    @Bean(BEAN_PREFIX + "processor")
+    @StepScope
+    public NotifyJobProcessor processor() {
+        return new NotifyJobProcessor();
+    }
+
+    @Bean(BEAN_PREFIX + "writer")
+    public JpaItemListPersistWriter<Lecture> writer() {
+        JpaItemWriter<Lecture> itemWriter = new JpaItemWriter<>();
+        itemWriter.setEntityManagerFactory(emf);
+        return new JpaItemListPersistWriter<>(itemWriter);
+    }
 
 
 }

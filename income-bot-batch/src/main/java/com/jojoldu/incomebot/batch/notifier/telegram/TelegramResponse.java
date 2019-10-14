@@ -3,6 +3,7 @@ package com.jojoldu.incomebot.batch.notifier.telegram;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -56,6 +57,18 @@ public class TelegramResponse {
         private Chat chat;
         private long date;
         private String text;
+
+        public Result(long date) {
+            this.date = date;
+        }
+
+        @Builder
+        public Result(long messageId, Chat chat, long date, String text) {
+            this.messageId = messageId;
+            this.chat = chat;
+            this.date = date;
+            this.text = text;
+        }
     }
 
     @ToString

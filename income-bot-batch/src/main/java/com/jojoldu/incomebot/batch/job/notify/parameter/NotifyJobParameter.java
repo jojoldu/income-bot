@@ -27,15 +27,11 @@ public class NotifyJobParameter {
 
     @Value("#{jobParameters[interval]}")
     public void setInterval(String interval) {
-        if(!StringUtils.isEmpty(interval)) {
-            this.interval = IntervalType.valueOf(interval);
-        }
+        this.interval = IntervalType.valueOf(interval);
     }
 
     @Value("#{jobParameters[executeTime]}")
     public void setExecuteTime(String executeTime) {
-        if(!StringUtils.isEmpty(executeTime)){
-            this.executeTime = LocalDateTime.parse(executeTime, trimFormatter);
-        }
+        this.executeTime = LocalDateTime.parse(executeTime, trimFormatter);
     }
 }
