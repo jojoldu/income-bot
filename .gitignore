@@ -8,6 +8,7 @@ build/
 application-bot.yml
 TelegramNotifierTest.java
 generated
+lombok.config
 
 ### STS ###
 .apt_generated

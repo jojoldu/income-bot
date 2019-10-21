@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
     id 'com.gorylenko.gradle-git-properties' version '2.2.0'
+//    id 'io.freefair.lombok' version '4.1.2'
 }
 
 allprojects {
@@ -18,6 +19,7 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'com.gorylenko.gradle-git-properties'
+//    apply plugin: 'io.freefair.lombok'
 
     group = "${projectGroup}"
     version = "${projectVersion}-"+new Date().format('yyyyMMddHHmmss')
@@ -26,7 +28,10 @@ subprojects {
 
     dependencies {
         annotationProcessor 'org.projectlombok:lombok'
-        compileOnly 'org.projectlombok:lombok'
+        implementation 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.projectlombok:lombok'
+
         implementation 'org.springframework.boot:spring-boot-starter'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'org.spockframework:spock-core:1.2-groovy-2.4'
