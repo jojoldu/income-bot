@@ -16,6 +16,6 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Gradle
-      run: ./gradlew :income-bot-batch:build -x test
+      run: ./gradlew build
     - name: Print
       run: echo "${{ secrets.AWS_ACCESS_KEY }}"
