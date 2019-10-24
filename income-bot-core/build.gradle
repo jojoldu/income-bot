@@ -2,8 +2,8 @@ plugins {
     id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
-bootJar { enabled = false }
-jar { enabled = true }
+bootJar.enabled = false
+jar.enabled = true
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
