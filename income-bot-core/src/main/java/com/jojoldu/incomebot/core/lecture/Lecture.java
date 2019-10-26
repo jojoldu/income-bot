@@ -8,7 +8,7 @@ package com.jojoldu.incomebot.core.lecture;
 
 import com.jojoldu.incomebot.core.BaseTimeEntity;
 import com.jojoldu.incomebot.core.instructor.Instructor;
-import com.jojoldu.incomebot.core.notifyhistory.NotifyHistory;
+import com.jojoldu.incomebot.core.lecture.history.online.OnlineLectureHistory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,7 +51,7 @@ public class Lecture extends BaseTimeEntity {
     private Instructor instructor;
 
     @OneToMany(mappedBy = "lecture", cascade = ALL)
-    private List<NotifyHistory> histories = new ArrayList<>();
+    private List<OnlineLectureHistory> onlineHistories = new ArrayList<>();
 
     @Builder
     public Lecture(String title, String url, LectureType lectureType, long beforeScore, long currentScore, Instructor instructor) {
@@ -77,21 +77,28 @@ public class Lecture extends BaseTimeEntity {
         this.instructor = instructor;
     }
 
-    public void notify (long newScore, String message, LocalDateTime notifyDateTime) {
-        NotifyHistory history = NotifyHistory.builder()
+    public void notifyOnline(long newScore, long coursePrice, String message, LocalDateTime notifyDateTime) {
+        OnlineLectureHistory history = OnlineLectureHistory.builder()
                 .beforeScore(currentScore)
                 .currentScore(newScore)
+                .coursePrice(coursePrice)
                 .message(message)
                 .notifyDateTime(notifyDateTime)
                 .build();
 
-        this.addHistory(history);
-        this.updateScore(newScore); // 순서 중요 (먼저 실행되면 현재 스코어가 변경됨)
+        this.addOnlineHistory(history);
+        this.refreshScore(newScore); // 순서 중요 (먼저 실행되면 현재 스코어가 변경됨)
     }
 
-    public void addHistory (NotifyHistory history) {
-        this.histories.add(history);
-        history.setLecture(this);
+    public void addOnlineHistory(OnlineLectureHistory history) {
+        if (this.lectureType.isOnline()) {
+            this.onlineHistories.add(history);
+            history.setLecture(this);
+        }
+    }
+
+    public boolean isOnline() {
+        return this.lectureType.isOnline();
     }
 
     public boolean isNotUpdated(long newScore) {
@@ -102,7 +109,7 @@ public class Lecture extends BaseTimeEntity {
         return this.currentScore != newScore;
     }
 
-    public void updateScore(long currentScore) {
+    public void refreshScore(long currentScore) {
         if(isUpdated(currentScore)) {
             this.beforeScore = this.currentScore;
             this.currentScore = currentScore;

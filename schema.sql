@@ -20,7 +20,8 @@ create table lecture
     instructor_id bigint,
     primary key (id)
 ) engine = InnoDB;
-create table notify_history
+
+create table online_lecture_history
 (
     id               bigint not null auto_increment,
     created_date     datetime,
@@ -29,16 +30,19 @@ create table notify_history
     current_score    bigint not null,
     message          varchar(255),
     notify_date_time datetime,
+    course_price     bigint not null,
+    increased_price  bigint not null,
     lecture_id       bigint,
     primary key (id)
 ) engine = InnoDB;
+
 create index idx_instructor_interval on instructor (interval_type);
 alter table instructor
     add constraint uni_instructor_chat_id unique (chat_id);
 alter table lecture
     add constraint fk_lecture_instructor foreign key (instructor_id) references instructor (id);
-alter table notify_history
-    add constraint fk_notify_history_lecture foreign key (lecture_id) references lecture (id);
+alter table online_lecture_history
+    add constraint fk_inflearn_lecture_history_lecture foreign key (lecture_id) references lecture (id);
 
 CREATE TABLE BATCH_JOB_INSTANCE
 (
@@ -152,4 +156,9 @@ CREATE TABLE BATCH_JOB_SEQ
     UNIQUE_KEY CHAR(1) NOT NULL,
     constraint UNIQUE_KEY_UN unique (UNIQUE_KEY)
 ) ENGINE = InnoDB;
+
+INSERT INTO BATCH_JOB_SEQ (ID, UNIQUE_KEY)
+select *
+from (select 0 as ID, '0' as UNIQUE_KEY) as tmp
+where not exists(select * from BATCH_JOB_SEQ);
 

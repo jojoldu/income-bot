@@ -1,4 +1,4 @@
-package com.jojoldu.incomebot.batch.notifier.telegram.config;
+package com.jojoldu.incomebot.batch.telegram.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

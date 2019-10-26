@@ -1,4 +1,4 @@
-package com.jojoldu.incomebot.batch.notifier.telegram;
+package com.jojoldu.incomebot.batch.telegram;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

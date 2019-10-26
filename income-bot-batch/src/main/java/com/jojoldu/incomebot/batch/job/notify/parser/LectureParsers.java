@@ -1,11 +1,10 @@
-package com.jojoldu.incomebot.batch.parser;
+package com.jojoldu.incomebot.batch.job.notify.parser;
 
-import com.jojoldu.incomebot.batch.parser.impl.InflearnParser;
+import com.jojoldu.incomebot.batch.job.notify.parser.impl.InflearnParser;
+import com.jojoldu.incomebot.batch.job.notify.parser.result.ParseResult;
 import com.jojoldu.incomebot.core.lecture.LectureType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Arrays;
 
 /**
  * Created by jojoldu@gmail.com on 12/10/2019
@@ -15,14 +14,14 @@ import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
-public enum LectureParserType implements LectureParser {
+public enum LectureParsers implements LectureParser {
     INFLEARN (LectureType.INFLEARN, new InflearnParser());
 
     private final LectureType lectureType;
     private final LectureParser parser;
 
     @Override
-    public long parse(String url) {
+    public ParseResult parse(String url) {
         return this.parser.parse(url);
     }
 

@@ -2,7 +2,7 @@ package com.jojoldu.incomebot.batch.notifier;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jojoldu.incomebot.batch.config.AppConfig;
-import com.jojoldu.incomebot.batch.notifier.telegram.TelegramResponse;
+import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
 import org.junit.Before;
 import org.junit.Test;
 

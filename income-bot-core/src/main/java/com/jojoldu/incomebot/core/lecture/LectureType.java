@@ -17,4 +17,11 @@ public enum LectureType {
 
     private final String title;
 
+    public boolean isBook() {
+        return LectureGroupType.isBook(this);
+    }
+
+    public boolean isOnline() {
+        return LectureGroupType.isOnline(this);
+    }
 }

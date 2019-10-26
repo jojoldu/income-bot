@@ -1,6 +1,6 @@
-package com.jojoldu.incomebot.batch.notifier.telegram;
+package com.jojoldu.incomebot.batch.telegram;
 
-import com.jojoldu.incomebot.batch.notifier.telegram.config.TelegramProperties;
+import com.jojoldu.incomebot.batch.telegram.config.TelegramProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;

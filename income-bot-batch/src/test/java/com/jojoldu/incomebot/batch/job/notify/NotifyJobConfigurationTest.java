@@ -1,15 +1,16 @@
 package com.jojoldu.incomebot.batch.job.notify;
 
 import com.jojoldu.incomebot.TestBatchConfig;
-import com.jojoldu.incomebot.batch.notifier.telegram.TelegramNotifier;
-import com.jojoldu.incomebot.batch.notifier.telegram.TelegramResponse;
-import com.jojoldu.incomebot.batch.parser.LectureParserRestTemplate;
+import com.jojoldu.incomebot.batch.job.notify.parser.LectureParserRestTemplate;
+import com.jojoldu.incomebot.batch.job.notify.parser.result.InflearnParseResult;
+import com.jojoldu.incomebot.batch.telegram.TelegramNotifier;
+import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
 import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.instructor.InstructorRepository;
 import com.jojoldu.incomebot.core.lecture.Lecture;
 import com.jojoldu.incomebot.core.lecture.LectureRepository;
-import com.jojoldu.incomebot.core.notifyhistory.NotifyHistory;
-import com.jojoldu.incomebot.core.notifyhistory.NotifyHistoryRepository;
+import com.jojoldu.incomebot.core.lecture.history.online.OnlineLectureHistory;
+import com.jojoldu.incomebot.core.lecture.history.online.OnlineLectureHistoryRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +43,7 @@ import static org.mockito.BDDMockito.given;
 @SpringBootTest(classes={NotifyJobConfiguration.class, TestBatchConfig.class})
 public class NotifyJobConfigurationTest {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;
 
@@ -52,7 +54,7 @@ public class NotifyJobConfigurationTest {
     private LectureRepository lectureRepository;
 
     @Autowired
-    private NotifyHistoryRepository notifyHistoryRepository;
+    private OnlineLectureHistoryRepository onlineLectureHistoryRepository;
 
     @MockBean
     private TelegramNotifier telegramNotifier;
@@ -73,7 +75,7 @@ public class NotifyJobConfigurationTest {
 
         long newScore = 100L;
         given(lectureParserRestTemplate.parse(anyString(), any()))
-                .willReturn(newScore);
+                .willReturn(new InflearnParseResult(newScore, 22_000));
 
         createInstructor(123, "IntelliJ 를 시작하시는 분들을 위한 가이드", "https://www.inflearn.com/course/intellij-guide#");
 
@@ -92,7 +94,7 @@ public class NotifyJobConfigurationTest {
         assertThat(lectures.size()).isEqualTo(1);
         assertThat(lectures.get(0).getCurrentScore()).isEqualTo(newScore);
 
-        List<NotifyHistory> histories = notifyHistoryRepository.findAll();
+        List<OnlineLectureHistory> histories = onlineLectureHistoryRepository.findAll();
         assertThat(histories.size()).isEqualTo(1);
         assertThat(histories.get(0).getCurrentScore()).isEqualTo(newScore);
         assertThat(histories.get(0).getMessage()).contains("+100");

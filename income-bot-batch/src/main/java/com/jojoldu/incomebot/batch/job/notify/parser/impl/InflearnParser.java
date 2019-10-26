@@ -1,6 +1,7 @@
-package com.jojoldu.incomebot.batch.parser.impl;
+package com.jojoldu.incomebot.batch.job.notify.parser.impl;
 
-import com.jojoldu.incomebot.batch.parser.LectureParser;
+import com.jojoldu.incomebot.batch.job.notify.parser.LectureParser;
+import com.jojoldu.incomebot.batch.job.notify.parser.result.InflearnParseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,20 +19,19 @@ import static java.lang.Long.parseLong;
  * Github : http://github.com/jojoldu
  */
 @Slf4j
-public class InflearnParser implements LectureParser {
+public class InflearnParser implements LectureParser<InflearnParseResult> {
     private static final String DIGIT_REGEX = "\\d+";
     private static final Pattern PATTERN = Pattern.compile(DIGIT_REGEX);
 
     @Override
-    public long parse(String url) {
+    public InflearnParseResult parse(String url) {
         try {
             Document document = Jsoup.connect(url).get();
-            return getStudentCount(document);
-
+            return new InflearnParseResult(getStudentCount(document), getCoursePrice(document));
         } catch (IOException e) {
             log.error("인프런 URL 파싱에 실패하였습니다.");
         }
-        return 0;
+        return InflearnParseResult.EMPTY;
     }
 
     private long getStudentCount(Document document) {
@@ -42,7 +42,7 @@ public class InflearnParser implements LectureParser {
         return matcher.find() ? parseLong(matcher.group()) : 0;
     }
 
-    private long getPrice(Document document) {
+    private long getCoursePrice(Document document) {
         Element section = document.getElementsByClass("course_price").get(0);
         String content = section.text();
         Matcher matcher = PATTERN.matcher(content);

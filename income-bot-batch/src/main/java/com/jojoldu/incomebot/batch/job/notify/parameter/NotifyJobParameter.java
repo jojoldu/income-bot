@@ -32,6 +32,11 @@ public class NotifyJobParameter {
 
     @Value("#{jobParameters[executeTime]}")
     public void setExecuteTime(String executeTime) {
+        if (StringUtils.isEmpty(executeTime)) {
+            this.executeTime = LocalDateTime.now();
+            return;
+        }
+
         this.executeTime = LocalDateTime.parse(executeTime, trimFormatter);
     }
 }

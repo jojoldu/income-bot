@@ -1,15 +1,17 @@
 package com.jojoldu.incomebot.batch.job.notify.processor;
 
 import com.jojoldu.incomebot.batch.job.notify.NotifyJobProcessor;
-import com.jojoldu.incomebot.batch.notifier.telegram.TelegramMessage;
-import com.jojoldu.incomebot.batch.notifier.telegram.TelegramNotifier;
-import com.jojoldu.incomebot.batch.notifier.telegram.TelegramResponse;
-import com.jojoldu.incomebot.batch.notifier.telegram.config.TelegramProperties;
-import com.jojoldu.incomebot.batch.parser.LectureParserRestTemplate;
+import com.jojoldu.incomebot.batch.job.notify.parser.LectureParserRestTemplate;
+import com.jojoldu.incomebot.batch.job.notify.parser.result.InflearnParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.result.ParseResult;
+import com.jojoldu.incomebot.batch.telegram.TelegramMessage;
+import com.jojoldu.incomebot.batch.telegram.TelegramNotifier;
+import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
+import com.jojoldu.incomebot.batch.telegram.config.TelegramProperties;
 import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.lecture.Lecture;
 import com.jojoldu.incomebot.core.lecture.LectureType;
-import com.jojoldu.incomebot.core.notifyhistory.NotifyHistory;
+import com.jojoldu.incomebot.core.lecture.history.online.OnlineLectureHistory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
@@ -52,8 +54,8 @@ public class NotifyJobProcessorTest {
 
         //then
         assertThat(result.size()).isEqualTo(1);
-        NotifyHistory history = result.get(0).getHistories().get(0);
-        assertHistory(history, "[인프런] \"IntelliJ 를 시작하시는 분들을 위한 가이드\"가 +100 되어 현재 100 입니다.");
+        OnlineLectureHistory history = result.get(0).getOnlineHistories().get(0);
+        assertHistory(history, goods);
     }
 
     @Test
@@ -72,12 +74,12 @@ public class NotifyJobProcessorTest {
 
         //then
         assertThat(result.size()).isEqualTo(2);
-        assertHistory(result.get(0).getHistories().get(0), "[인프런] \"IntelliJ 를 시작하시는 분들을 위한 가이드\"가 +100 되어 현재 100 입니다.");
-        assertHistory(result.get(1).getHistories().get(0), "[인프런] \"실전! 스프링 부트와 JPA 활용1 - 웹 애플리케이션 개발\"가 +100 되어 현재 100 입니다.");
+        assertHistory(result.get(0).getOnlineHistories().get(0), goods1);
+        assertHistory(result.get(1).getOnlineHistories().get(0), goods2);
     }
 
-    private void assertHistory(NotifyHistory history, String expectedMessage) {
-        assertThat(history.getMessage()).isEqualTo(expectedMessage);
+    private void assertHistory(OnlineLectureHistory history, String expectedMessage) {
+        assertThat(history.getMessage()).contains(expectedMessage);
         assertThat(history.getBeforeScore()).isEqualTo(0);
         assertThat(history.getCurrentScore()).isEqualTo(NEW_SCORE);
     }
@@ -100,8 +102,8 @@ public class NotifyJobProcessorTest {
     public static class StubLectureParserRestTemplate extends LectureParserRestTemplate {
 
         @Override
-        public long parse(String url, LectureType type) {
-            return NEW_SCORE;
+        public ParseResult parse(String url, LectureType type) {
+            return new InflearnParseResult(NEW_SCORE, 0);
         }
     }
 }

@@ -1,6 +1,6 @@
-package com.jojoldu.incomebot.batch.parser;
+package com.jojoldu.incomebot.batch.job.notify.parser;
 
-import com.jojoldu.incomebot.batch.parser.impl.InflearnParser;
+import com.jojoldu.incomebot.batch.job.notify.parser.impl.InflearnParser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class InflearnParserTest {
         String url = "https://www.inflearn.com/course/intellij-guide#";
 
         //when
-        long count = parser.parse(url);
+        long count = parser.parse(url).getStudentCount();
 
         //then
         log.info("count= "+count);

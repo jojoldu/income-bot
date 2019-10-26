@@ -1,19 +1,18 @@
 package com.jojoldu.incomebot.batch.job.notify;
 
-import com.jojoldu.incomebot.batch.notifier.telegram.TelegramMessage;
-import com.jojoldu.incomebot.batch.notifier.telegram.TelegramNotifier;
-import com.jojoldu.incomebot.batch.notifier.telegram.TelegramResponse;
-import com.jojoldu.incomebot.batch.parser.LectureParserRestTemplate;
-import com.jojoldu.incomebot.batch.parser.LectureParserType;
+import com.jojoldu.incomebot.batch.job.notify.parser.LectureParserRestTemplate;
+import com.jojoldu.incomebot.batch.job.notify.parser.result.InflearnParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.result.ParseResult;
+import com.jojoldu.incomebot.batch.telegram.TelegramMessage;
+import com.jojoldu.incomebot.batch.telegram.TelegramNotifier;
+import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
 import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.lecture.Lecture;
-import com.jojoldu.incomebot.core.notifyhistory.NotifyHistory;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,24 +50,20 @@ public class NotifyJobProcessor implements ItemProcessor<Instructor, List<Lectur
     }
 
     private Optional<Lecture> notify(Long chatId, Lecture lecture) {
-        long newScore = lectureParserRestTemplate.parse(lecture.getUrl(), lecture.getLectureType());
+        ParseResult parseResult = lectureParserRestTemplate.parse(lecture.getUrl(), lecture.getLectureType());
 
-        if (lecture.isNotUpdated(newScore)) {
+        if (lecture.isNotUpdated(parseResult.getCurrentScore())) {
             return Optional.empty();
         }
 
         long beforeScore = lecture.getCurrentScore();
-        TelegramMessage message = TelegramMessage.byLecture()
-                .chatId(chatId)
-                .beforeScore(beforeScore)
-                .currentScore(newScore)
-                .type(lecture.getLectureType())
-                .goods(lecture.getTitle())
-                .build();
-
+        TelegramMessage message = new TelegramMessage(chatId, parseResult.getMessage(beforeScore, lecture.getTitle()));
         TelegramResponse response = telegramNotifier.notify(message);
 
-        lecture.notify(newScore, message.getText(), response.getSendTime());
+        if (lecture.isOnline()) {
+            InflearnParseResult inflearn = (InflearnParseResult) parseResult;
+            lecture.notifyOnline(inflearn.getCurrentScore(), inflearn.getCoursePrice(), message.getText(), response.getSendTime());
+        }
         return Optional.of(lecture);
     }
 }
