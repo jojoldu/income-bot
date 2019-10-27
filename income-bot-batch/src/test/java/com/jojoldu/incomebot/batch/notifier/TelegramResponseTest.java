@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,6 +39,5 @@ public class TelegramResponseTest {
         assertThat(response.getResult().getText()).isEqualTo("테스트입니다.");
         assertThat(response.getChat().getFirstName()).isEqualTo("동욱");
         assertThat(response.getChat().getLastName()).isEqualTo("이");
-        assertThat(response.getSendTime()).isEqualTo(LocalDateTime.of(2019,10,12,18,23,47));
     }
 }
