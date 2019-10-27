@@ -16,4 +16,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Gradle
-      run: ./gradlew :income-bot-batch:clean :income-bot-batch:build
+      run: ./gradlew clean build

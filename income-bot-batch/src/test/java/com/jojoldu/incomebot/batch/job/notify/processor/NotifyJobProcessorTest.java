@@ -93,9 +93,9 @@ public class NotifyJobProcessorTest {
 
         @Override
         public TelegramResponse notify(TelegramMessage message) {
-            TelegramResponse.Result result = new TelegramResponse.Result();
             ZoneId zoneId = ZoneId.systemDefault();
-            result.setDate(REQUEST_DATE_TIME.atZone(zoneId).toEpochSecond());
+            long date = REQUEST_DATE_TIME.atZone(zoneId).toEpochSecond();
+            TelegramResponse.Result result = new TelegramResponse.Result(date, message.getText());
             return new TelegramResponse(true, result);
         }
     }
