@@ -1,9 +1,9 @@
 package com.jojoldu.incomebot.batch.job.notify.processor;
 
 import com.jojoldu.incomebot.batch.job.notify.NotifyJobProcessor;
-import com.jojoldu.incomebot.batch.job.notify.parser.LectureParserRestTemplate;
-import com.jojoldu.incomebot.batch.job.notify.parser.result.ParseResult;
-import com.jojoldu.incomebot.batch.job.notify.parser.result.online.InflearnParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.LectureParseExecutor;
+import com.jojoldu.incomebot.batch.job.notify.parser.ParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.online.inflearn.InflearnParseResult;
 import com.jojoldu.incomebot.batch.telegram.TelegramMessage;
 import com.jojoldu.incomebot.batch.telegram.TelegramNotifier;
 import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
@@ -100,7 +100,7 @@ public class NotifyJobProcessorTest {
         }
     }
 
-    public static class StubLectureParserRestTemplate extends LectureParserRestTemplate {
+    public static class StubLectureParserRestTemplate extends LectureParseExecutor {
 
         @Override
         public Optional<ParseResult> parse(String url, LectureType type) {

@@ -45,6 +45,11 @@ public class TelegramResponse {
         return result.chat;
     }
 
+    @JsonIgnore
+    public String getSendedMessage() {
+        return result.text;
+    }
+
     @ToString
     @Getter
     @Setter
@@ -58,8 +63,9 @@ public class TelegramResponse {
         private long date;
         private String text;
 
-        public Result(long date) {
+        public Result(long date, String text) {
             this.date = date;
+            this.text = text;
         }
 
         @Builder

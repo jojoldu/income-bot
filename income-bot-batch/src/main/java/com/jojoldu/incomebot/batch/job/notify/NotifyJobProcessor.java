@@ -1,8 +1,9 @@
 package com.jojoldu.incomebot.batch.job.notify;
 
-import com.jojoldu.incomebot.batch.job.notify.parser.LectureParserRestTemplate;
-import com.jojoldu.incomebot.batch.job.notify.parser.result.ParseResult;
-import com.jojoldu.incomebot.batch.job.notify.parser.result.online.InflearnParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.LectureParseExecutor;
+import com.jojoldu.incomebot.batch.job.notify.parser.ParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.book.BookParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.online.OnlineParseResult;
 import com.jojoldu.incomebot.batch.telegram.TelegramMessage;
 import com.jojoldu.incomebot.batch.telegram.TelegramNotifier;
 import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 public class NotifyJobProcessor implements ItemProcessor<Instructor, List<Lecture>> {
 
     private TelegramNotifier telegramNotifier;
-    private LectureParserRestTemplate lectureParserRestTemplate;
+    private LectureParseExecutor lectureParserRestTemplate;
 
     @Autowired
     public void setTelegramNotifier(TelegramNotifier telegramNotifier) {
@@ -36,7 +37,7 @@ public class NotifyJobProcessor implements ItemProcessor<Instructor, List<Lectur
     }
 
     @Autowired
-    public void setLectureParserRestTemplate(LectureParserRestTemplate lectureParserRestTemplate) {
+    public void setLectureParserRestTemplate(LectureParseExecutor lectureParserRestTemplate) {
         this.lectureParserRestTemplate = lectureParserRestTemplate;
     }
 
@@ -49,26 +50,36 @@ public class NotifyJobProcessor implements ItemProcessor<Instructor, List<Lectur
                 .collect(Collectors.toList());
     }
 
-    private Optional<Lecture> notify(Long chatId, Lecture lecture) {
-        Optional<ParseResult> parse = lectureParserRestTemplate.parse(lecture.getUrl(), lecture.getLectureType());
-        if (!parse.isPresent()) {
-            return Optional.empty();
-        }
+    public Optional<Lecture> notify(Long chatId, Lecture lecture) {
+        return lectureParserRestTemplate.parse(lecture.getUrl(), lecture.getLectureType())
+                .filter(parseResult -> lecture.isUpdated(parseResult.getCurrentScore()))
+                .map(parseResult -> notify(lecture, parseResult, chatId));
+    }
 
-        ParseResult parseResult = parse.get();
-
-        if (lecture.isNotUpdated(parseResult.getCurrentScore())) {
-            return Optional.empty();
-        }
-
+    private Lecture notify(Lecture lecture, ParseResult parseResult, Long chatId) {
         long beforeScore = lecture.getCurrentScore();
         TelegramMessage message = new TelegramMessage(chatId, parseResult.getMessage(beforeScore, lecture.getTitle()));
         TelegramResponse response = telegramNotifier.notify(message);
 
         if (lecture.isOnline()) {
-            InflearnParseResult inflearn = (InflearnParseResult) parseResult;
-            lecture.notifyOnline(inflearn.getCurrentScore(), inflearn.getCoursePrice(), message.getText(), response.getSendTime());
+            return notifyOnline(lecture, parseResult, response);
+
+        } else if (lecture.isBook()) {
+            return notifyBook(lecture, parseResult, response);
         }
-        return Optional.of(lecture);
+
+        return null;
+    }
+
+    private Lecture notifyOnline(Lecture lecture, ParseResult parseResult, TelegramResponse response) {
+        OnlineParseResult onlineResult = (OnlineParseResult) parseResult;
+        lecture.notifyOnline(onlineResult.getCurrentScore(), onlineResult.getCoursePrice(), response.getSendedMessage(), response.getSendTime());
+        return lecture;
+    }
+
+    private Lecture notifyBook(Lecture lecture, ParseResult parseResult, TelegramResponse response) {
+        BookParseResult bookResult = (BookParseResult) parseResult;
+        lecture.notifyBook(bookResult.getCurrentScore(), response.getSendedMessage(), response.getSendTime());
+        return lecture;
     }
 }

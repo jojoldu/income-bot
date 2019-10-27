@@ -8,6 +8,7 @@ package com.jojoldu.incomebot.core.lecture;
 
 import com.jojoldu.incomebot.core.BaseTimeEntity;
 import com.jojoldu.incomebot.core.instructor.Instructor;
+import com.jojoldu.incomebot.core.lecture.history.book.BookLectureHistory;
 import com.jojoldu.incomebot.core.lecture.history.online.OnlineLectureHistory;
 import lombok.Builder;
 import lombok.Getter;
@@ -53,6 +54,9 @@ public class Lecture extends BaseTimeEntity {
     @OneToMany(mappedBy = "lecture", cascade = ALL)
     private List<OnlineLectureHistory> onlineHistories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "lecture", cascade = ALL)
+    private List<BookLectureHistory> bookHistories = new ArrayList<>();
+
     @Builder
     public Lecture(String title, String url, LectureType lectureType, long beforeScore, long currentScore, Instructor instructor) {
         this.title = title;
@@ -91,14 +95,37 @@ public class Lecture extends BaseTimeEntity {
     }
 
     public void addOnlineHistory(OnlineLectureHistory history) {
-        if (this.lectureType.isOnline()) {
+        if (isOnline()) {
             this.onlineHistories.add(history);
+            history.setLecture(this);
+        }
+    }
+
+    public void notifyBook(long newScore, String message, LocalDateTime notifyDateTime) {
+        BookLectureHistory history = BookLectureHistory.builder()
+                .beforeScore(currentScore)
+                .currentScore(newScore)
+                .message(message)
+                .notifyDateTime(notifyDateTime)
+                .build();
+
+        this.addBookHistory(history);
+        this.refreshScore(newScore); // 순서 중요 (먼저 실행되면 현재 스코어가 변경됨)
+    }
+
+    public void addBookHistory(BookLectureHistory history) {
+        if (isBook()) {
+            this.bookHistories.add(history);
             history.setLecture(this);
         }
     }
 
     public boolean isOnline() {
         return this.lectureType.isOnline();
+    }
+
+    public boolean isBook() {
+        return this.lectureType.isBook();
     }
 
     public boolean isNotUpdated(long newScore) {

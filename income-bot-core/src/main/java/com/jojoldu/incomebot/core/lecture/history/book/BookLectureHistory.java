@@ -1,4 +1,4 @@
-package com.jojoldu.incomebot.core.lecture.history.online;
+package com.jojoldu.incomebot.core.lecture.history.book;
 
 import com.jojoldu.incomebot.core.lecture.Lecture;
 import com.jojoldu.incomebot.core.lecture.history.LectureHistory;
@@ -21,20 +21,15 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Entity
-public class OnlineLectureHistory extends LectureHistory {
-
-    private long coursePrice;
-    private long increasedPrice;
+public class BookLectureHistory extends LectureHistory {
 
     @ManyToOne
-    @JoinColumn(name = "lecture_id", foreignKey = @ForeignKey(name = "fk_online_lecture_history_lecture"))
+    @JoinColumn(name = "lecture_id", foreignKey = @ForeignKey(name = "fk_book_lecture_history_lecture"))
     private Lecture lecture;
 
     @Builder
-    public OnlineLectureHistory(long beforeScore, long currentScore, LocalDateTime notifyDateTime, String message, long coursePrice) {
+    public BookLectureHistory(long beforeScore, long currentScore, LocalDateTime notifyDateTime, String message) {
         super(beforeScore, currentScore, notifyDateTime, message);
-        this.coursePrice = coursePrice;
-        this.increasedPrice = (currentScore - beforeScore) * coursePrice;
     }
 
     public void setLecture(Lecture lecture) {

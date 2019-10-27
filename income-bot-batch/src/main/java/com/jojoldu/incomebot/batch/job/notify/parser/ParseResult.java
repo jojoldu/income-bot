@@ -1,4 +1,4 @@
-package com.jojoldu.incomebot.batch.job.notify.parser.result;
+package com.jojoldu.incomebot.batch.job.notify.parser;
 
 /**
  * Created by jojoldu@gmail.com on 26/10/2019

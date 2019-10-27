@@ -1,6 +1,6 @@
-package com.jojoldu.incomebot.batch.job.notify.parser.result.online;
+package com.jojoldu.incomebot.batch.job.notify.parser.online.inflearn;
 
-import com.jojoldu.incomebot.batch.job.notify.parser.result.ParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.online.OnlineParseResult;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class InflearnParseResult implements ParseResult {
+public class InflearnParseResult implements OnlineParseResult {
     public static final InflearnParseResult EMPTY = new InflearnParseResult(0, 0);
     private static final String TEXT_FORMAT = "[인프런] \"{goods}\"의 수강생이 {addScore}명 ({addAmount}원) 되어 현재 {newScore} 명이 수강중입니다.";
 
@@ -32,8 +32,4 @@ public class InflearnParseResult implements ParseResult {
                 .replaceAll("\\{newScore\\}", String.valueOf(studentCount));
     }
 
-    @Override
-    public long getCurrentScore() {
-        return this.studentCount;
-    }
 }

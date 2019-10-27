@@ -35,6 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes={NotifyJobConfiguration.class, TestBatchConfig.class})
 public class NotifyJobConfigurationReaderTest {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;
 

@@ -1,6 +1,5 @@
-package com.jojoldu.incomebot.batch.job.notify.parser;
+package com.jojoldu.incomebot.batch.job.notify.parser.online.inflearn;
 
-import com.jojoldu.incomebot.batch.job.notify.parser.impl.InflearnParser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;

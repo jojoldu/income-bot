@@ -1,6 +1,5 @@
 package com.jojoldu.incomebot.batch.job.notify.parser;
 
-import com.jojoldu.incomebot.batch.job.notify.parser.result.ParseResult;
 import com.jojoldu.incomebot.core.lecture.LectureType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,7 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class LectureParserRestTemplate {
+public class LectureParseExecutor {
 
     public Optional<ParseResult> parse(String url, LectureType type) {
         return Arrays.stream(LectureParsers.values())

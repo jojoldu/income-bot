@@ -42,7 +42,7 @@ alter table instructor
 alter table lecture
     add constraint fk_lecture_instructor foreign key (instructor_id) references instructor (id);
 alter table online_lecture_history
-    add constraint fk_inflearn_lecture_history_lecture foreign key (lecture_id) references lecture (id);
+    add constraint fk_online_lecture_history_lecture foreign key (lecture_id) references lecture (id);
 
 CREATE TABLE BATCH_JOB_INSTANCE
 (
