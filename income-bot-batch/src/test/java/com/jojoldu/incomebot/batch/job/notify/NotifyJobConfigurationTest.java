@@ -2,7 +2,7 @@ package com.jojoldu.incomebot.batch.job.notify;
 
 import com.jojoldu.incomebot.TestBatchConfig;
 import com.jojoldu.incomebot.batch.job.notify.parser.LectureParserRestTemplate;
-import com.jojoldu.incomebot.batch.job.notify.parser.result.InflearnParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.result.online.InflearnParseResult;
 import com.jojoldu.incomebot.batch.telegram.TelegramNotifier;
 import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
 import com.jojoldu.incomebot.core.instructor.Instructor;
@@ -26,6 +26,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.jojoldu.incomebot.core.lecture.LectureType.INFLEARN;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -75,7 +76,7 @@ public class NotifyJobConfigurationTest {
 
         long newScore = 100L;
         given(lectureParserRestTemplate.parse(anyString(), any()))
-                .willReturn(new InflearnParseResult(newScore, 22_000));
+                .willReturn(Optional.of(new InflearnParseResult(newScore, 22_000)));
 
         createInstructor(123, "IntelliJ 를 시작하시는 분들을 위한 가이드", "https://www.inflearn.com/course/intellij-guide#");
 

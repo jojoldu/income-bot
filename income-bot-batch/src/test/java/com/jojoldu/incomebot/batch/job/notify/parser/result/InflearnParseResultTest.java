@@ -1,5 +1,6 @@
 package com.jojoldu.incomebot.batch.job.notify.parser.result;
 
+import com.jojoldu.incomebot.batch.job.notify.parser.result.online.InflearnParseResult;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

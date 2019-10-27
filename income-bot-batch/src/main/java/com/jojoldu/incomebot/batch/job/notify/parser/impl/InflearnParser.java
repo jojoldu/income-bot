@@ -1,7 +1,7 @@
 package com.jojoldu.incomebot.batch.job.notify.parser.impl;
 
 import com.jojoldu.incomebot.batch.job.notify.parser.LectureParser;
-import com.jojoldu.incomebot.batch.job.notify.parser.result.InflearnParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.result.online.InflearnParseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -46,7 +46,7 @@ public class InflearnParser implements LectureParser<InflearnParseResult> {
         Element section = document.getElementsByClass("course_price").get(0);
         String content = section.text();
         return parseLong(content
-                .replaceAll("원", "")
-                .replaceAll(",", ""));
+                .replace("원", "")
+                .replace(",", ""));
     }
 }

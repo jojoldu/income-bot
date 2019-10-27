@@ -1,5 +1,6 @@
-package com.jojoldu.incomebot.batch.job.notify.parser.result;
+package com.jojoldu.incomebot.batch.job.notify.parser.result.online;
 
+import com.jojoldu.incomebot.batch.job.notify.parser.result.ParseResult;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

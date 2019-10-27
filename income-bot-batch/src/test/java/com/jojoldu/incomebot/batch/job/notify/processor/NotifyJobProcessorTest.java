@@ -2,8 +2,8 @@ package com.jojoldu.incomebot.batch.job.notify.processor;
 
 import com.jojoldu.incomebot.batch.job.notify.NotifyJobProcessor;
 import com.jojoldu.incomebot.batch.job.notify.parser.LectureParserRestTemplate;
-import com.jojoldu.incomebot.batch.job.notify.parser.result.InflearnParseResult;
 import com.jojoldu.incomebot.batch.job.notify.parser.result.ParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.result.online.InflearnParseResult;
 import com.jojoldu.incomebot.batch.telegram.TelegramMessage;
 import com.jojoldu.incomebot.batch.telegram.TelegramNotifier;
 import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
 import static com.jojoldu.incomebot.core.lecture.LectureType.INFLEARN;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -102,8 +103,8 @@ public class NotifyJobProcessorTest {
     public static class StubLectureParserRestTemplate extends LectureParserRestTemplate {
 
         @Override
-        public ParseResult parse(String url, LectureType type) {
-            return new InflearnParseResult(NEW_SCORE, 0);
+        public Optional<ParseResult> parse(String url, LectureType type) {
+            return Optional.of(new InflearnParseResult(NEW_SCORE, 0));
         }
     }
 }

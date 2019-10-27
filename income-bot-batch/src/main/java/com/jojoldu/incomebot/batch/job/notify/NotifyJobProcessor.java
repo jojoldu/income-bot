@@ -1,8 +1,8 @@
 package com.jojoldu.incomebot.batch.job.notify;
 
 import com.jojoldu.incomebot.batch.job.notify.parser.LectureParserRestTemplate;
-import com.jojoldu.incomebot.batch.job.notify.parser.result.InflearnParseResult;
 import com.jojoldu.incomebot.batch.job.notify.parser.result.ParseResult;
+import com.jojoldu.incomebot.batch.job.notify.parser.result.online.InflearnParseResult;
 import com.jojoldu.incomebot.batch.telegram.TelegramMessage;
 import com.jojoldu.incomebot.batch.telegram.TelegramNotifier;
 import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
@@ -50,7 +50,12 @@ public class NotifyJobProcessor implements ItemProcessor<Instructor, List<Lectur
     }
 
     private Optional<Lecture> notify(Long chatId, Lecture lecture) {
-        ParseResult parseResult = lectureParserRestTemplate.parse(lecture.getUrl(), lecture.getLectureType());
+        Optional<ParseResult> parse = lectureParserRestTemplate.parse(lecture.getUrl(), lecture.getLectureType());
+        if (!parse.isPresent()) {
+            return Optional.empty();
+        }
+
+        ParseResult parseResult = parse.get();
 
         if (lecture.isNotUpdated(parseResult.getCurrentScore())) {
             return Optional.empty();
