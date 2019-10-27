@@ -5,10 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static java.lang.Long.parseLong;
 
@@ -19,9 +19,6 @@ import static java.lang.Long.parseLong;
  */
 @Slf4j
 public class InflearnParser implements LectureParser<InflearnParseResult> {
-    private static final String DIGIT_REGEX = "\\d+";
-    private static final Pattern PATTERN = Pattern.compile(DIGIT_REGEX);
-
     @Override
     public InflearnParseResult parse(String url) {
         try {
@@ -34,18 +31,24 @@ public class InflearnParser implements LectureParser<InflearnParseResult> {
     }
 
     private long getStudentCount(Document document) {
-        Element section = document.getElementsByClass("student_cnt").get(0);
-        String content = section.text();
-        Matcher matcher = PATTERN.matcher(content);
+        Elements elements = document.select(".student_cnt");
+        if (CollectionUtils.isEmpty(elements)) {
+            return 0;
+        }
 
-        return matcher.find() ? parseLong(matcher.group()) : 0;
+        Element section = elements.get(0);
+        String content = section.text();
+        return parseLong(content.replaceAll("\\D+", ""));
     }
 
     private long getCoursePrice(Document document) {
-        Element section = document.getElementsByClass("course_price").get(0);
+        Elements elements = document.select(".course_price");
+        if (CollectionUtils.isEmpty(elements)) {
+            return 0;
+        }
+
+        Element section = elements.get(0);
         String content = section.text();
-        return parseLong(content
-                .replace("원", "")
-                .replace(",", ""));
+        return parseLong(content.replaceAll("\\D+", ""));
     }
 }

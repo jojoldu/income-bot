@@ -44,6 +44,21 @@ alter table lecture
 alter table online_lecture_history
     add constraint fk_online_lecture_history_lecture foreign key (lecture_id) references lecture (id);
 
+create table book_lecture_history
+(
+    id               bigint not null auto_increment,
+    created_date     datetime,
+    modified_date    datetime,
+    before_score     bigint not null,
+    current_score    bigint not null,
+    message          varchar(255),
+    notify_date_time datetime,
+    lecture_id       bigint,
+    primary key (id)
+) engine = InnoDB;
+alter table book_lecture_history
+    add constraint fk_book_lecture_history_lecture foreign key (lecture_id) references lecture (id);
+
 CREATE TABLE BATCH_JOB_INSTANCE
 (
     JOB_INSTANCE_ID BIGINT       NOT NULL PRIMARY KEY,
