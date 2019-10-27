@@ -22,7 +22,7 @@ public class InflearnParserTest {
     }
 
     @Test
-    public void 인프런_강의에서_수강생만_뽑아낸다() {
+    public void 인프런_강의에서_수강생이_추출된다() {
         //given
         String url = "https://www.inflearn.com/course/intellij-guide#";
 
@@ -32,5 +32,18 @@ public class InflearnParserTest {
         //then
         log.info("count= "+count);
         assertThat(count).isGreaterThanOrEqualTo(814);
+    }
+
+    @Test
+    public void 인프런_강의에서_가격이_추출된다() {
+        //given
+        String url = "https://www.inflearn.com/course/intellij-guide#";
+
+        //when
+        long coursePrice = parser.parse(url).getCoursePrice();
+
+        //then
+        log.info("coursePrice= " + coursePrice);
+        assertThat(coursePrice).isGreaterThanOrEqualTo(1_000);
     }
 }

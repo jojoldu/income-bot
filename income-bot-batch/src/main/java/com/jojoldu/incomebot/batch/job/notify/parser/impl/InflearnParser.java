@@ -45,17 +45,8 @@ public class InflearnParser implements LectureParser<InflearnParseResult> {
     private long getCoursePrice(Document document) {
         Element section = document.getElementsByClass("course_price").get(0);
         String content = section.text();
-        Matcher matcher = PATTERN.matcher(content);
-
-        if (matcher.find()) {
-            String group = matcher.group();
-            String amount = group
-                    .replaceAll("원", "")
-                    .replaceAll(",", "");
-
-            return parseLong(amount);
-        }
-
-        return 0;
+        return parseLong(content
+                .replaceAll("원", "")
+                .replaceAll(",", ""));
     }
 }
