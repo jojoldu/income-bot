@@ -1,6 +1,6 @@
 package com.jojoldu.incomebot.batch.job.notify;
 
-import com.jojoldu.incomebot.batch.common.JpaItemListPersistWriter;
+import com.jojoldu.incomebot.batch.common.JpaItemListWriter;
 import com.jojoldu.incomebot.batch.common.QuerydslPagingItemReader;
 import com.jojoldu.incomebot.batch.job.JobChunkSize;
 import com.jojoldu.incomebot.batch.job.notify.parameter.NotifyJobParameter;
@@ -83,10 +83,10 @@ public class NotifyJobConfiguration {
     }
 
     @Bean(BEAN_PREFIX + "writer")
-    public JpaItemListPersistWriter<Lecture> writer() {
+    public JpaItemListWriter<Lecture> writer() {
         JpaItemWriter<Lecture> itemWriter = new JpaItemWriter<>();
         itemWriter.setEntityManagerFactory(emf);
-        return new JpaItemListPersistWriter<>(itemWriter);
+        return new JpaItemListWriter<>(itemWriter);
     }
 
 
