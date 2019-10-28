@@ -23,6 +23,6 @@ public class InflearnParseResultTest {
         String message = result.getMessage(beforeCount, "IntelliJ 를 시작하시는 분들을 위한 가이드");
 
         //then
-        assertThat(message).isEqualTo("[인프런] \"IntelliJ 를 시작하시는 분들을 위한 가이드\"의 수강생이 +1명 (+13552원) 되어 현재 1 명이 수강중입니다.");
+        assertThat(message).isEqualTo("[인프런] \"IntelliJ 를 시작하시는 분들을 위한 가이드\"의 수강생이 +1명 (+13,552원) 되어 현재 1 명이 수강중입니다.");
     }
 }
