@@ -4,6 +4,8 @@ import com.jojoldu.incomebot.batch.job.notify.parser.online.OnlineParseResult;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import static com.jojoldu.incomebot.batch.util.NumberUtils.toCommaNumber;
+
 /**
  * Created by jojoldu@gmail.com on 26/10/2019
  * Blog : http://jojoldu.tistory.com
@@ -27,9 +29,9 @@ public class InflearnParseResult implements OnlineParseResult {
 
         return TEXT_FORMAT
                 .replaceAll("\\{goods\\}", goods)
-                .replaceAll("\\{addScore\\}", code + changeScore)
-                .replaceAll("\\{addAmount\\}", code + changeAmount)
-                .replaceAll("\\{newScore\\}", String.valueOf(studentCount));
+                .replaceAll("\\{addScore\\}", code + toCommaNumber(changeScore))
+                .replaceAll("\\{addAmount\\}", code + toCommaNumber(changeAmount))
+                .replaceAll("\\{newScore\\}", toCommaNumber(studentCount));
     }
 
 }
