@@ -1,4 +1,4 @@
-package com.jojoldu.incomebot.batch.job.notify.parser.book.yes24;
+package com.jojoldu.incomebot.batch.job.notify.parser.book.bandinlunis;
 
 import com.jojoldu.incomebot.batch.job.notify.parser.LectureParser;
 import lombok.extern.slf4j.Slf4j;
@@ -16,23 +16,23 @@ import static java.lang.Long.parseLong;
  * Github : http://github.com/jojoldu
  */
 @Slf4j
-public class Yes24Parser implements LectureParser<Yes24ParseResult> {
+public class BandinlunisParser implements LectureParser<BandinlunisParseResult> {
 
     @Override
-    public Yes24ParseResult parse(String url) {
+    public BandinlunisParseResult parse(String url) {
         try {
             Document document = Jsoup.connect(url).get();
-            return new Yes24ParseResult(getSalesPoint(document));
+            return new BandinlunisParseResult(getSalesPoint(document));
         } catch (IOException e) {
-            log.error("예스24 URL 파싱에 실패하였습니다.");
+            log.error("반디앤루니스 URL 파싱에 실패하였습니다.");
         }
-        return Yes24ParseResult.EMPTY;
+        return BandinlunisParseResult.EMPTY;
     }
 
     private long getSalesPoint(Document document) {
-        Element section = document.select(".gd_sellNum").get(0);
+        Element section = document.select(".section_left ul li strong").get(0);
         String content = section.text();
-        return parseLong(content.replaceAll("\\D+", ""));
+        return parseLong(content.replace(",", ""));
     }
 
 }

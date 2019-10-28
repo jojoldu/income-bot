@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum LectureType {
-    YES24 ("예스24") ,
+    YES24("예스24"),
+    ALADIN("알라딘"),
+    BANDINLUNIS("반디앤루니스"),
     INFLEARN ("인프런");
 
     private final String title;
