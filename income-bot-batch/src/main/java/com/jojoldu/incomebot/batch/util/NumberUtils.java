@@ -8,7 +8,15 @@ import java.text.NumberFormat;
  * Github : http://github.com/jojoldu
  */
 public class NumberUtils {
+    public static String toAbsCommaNumber(Long number) {
+        return toCommaNumber(toAbs(number));
+    }
+
     public static String toCommaNumber(Long number) {
         return NumberFormat.getInstance().format(number);
+    }
+
+    public static Long toAbs(Long number) {
+        return Math.abs(number);
     }
 }

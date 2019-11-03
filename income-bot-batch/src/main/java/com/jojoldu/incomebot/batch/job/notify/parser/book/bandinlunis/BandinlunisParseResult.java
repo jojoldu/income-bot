@@ -4,7 +4,7 @@ import com.jojoldu.incomebot.batch.job.notify.parser.book.BookParseResult;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import static com.jojoldu.incomebot.batch.util.NumberUtils.toCommaNumber;
+import static com.jojoldu.incomebot.batch.util.NumberUtils.toAbsCommaNumber;
 
 /**
  * Created by jojoldu@gmail.com on 26/10/2019
@@ -27,7 +27,7 @@ public class BandinlunisParseResult implements BookParseResult {
 
         return TEXT_FORMAT
                 .replaceAll("\\{goods\\}", goods)
-                .replaceAll("\\{addScore\\}", code + toCommaNumber(changeScore))
-                .replaceAll("\\{newScore\\}", toCommaNumber(salesPoint));
+                .replaceAll("\\{addScore\\}", code + toAbsCommaNumber(changeScore))
+                .replaceAll("\\{newScore\\}", toAbsCommaNumber(salesPoint));
     }
 }

@@ -17,7 +17,19 @@ public class NumberUtilsTest {
         Long number = 1_000L;
 
         //when
-        String result = NumberUtils.toCommaNumber(number);
+        String result = NumberUtils.toAbsCommaNumber(number);
+
+        //then
+        assertThat(result).isEqualTo("1,000");
+    }
+
+    @Test
+    public void 절대값으로_출력된다() {
+        //given
+        Long number = -1_000L;
+
+        //when
+        String result = NumberUtils.toAbsCommaNumber(number);
 
         //then
         assertThat(result).isEqualTo("1,000");
