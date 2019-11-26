@@ -30,7 +30,7 @@ public class InterParkParser implements LectureParser<InterParkParseResult> {
     }
 
     private long getSalesPoint(Document document) {
-        Element section = document.select(".saleIndexWrap .indexBox").get(0);
+        Element section = document.select(".indexBox").get(0);
         String content = section.text();
         return parseLong(content.replaceAll("\\D+", ""));
     }
