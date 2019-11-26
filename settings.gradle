@@ -6,4 +6,4 @@ pluginManagement {
 
 rootProject.name = 'income-bot'
 
-include 'income-bot-core', 'income-bot-batch'
+include 'income-bot-core', 'income-bot-batch', 'income-bot-parser'

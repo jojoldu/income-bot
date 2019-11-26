@@ -1,14 +1,14 @@
 package com.jojoldu.incomebot.batch.job.notify;
 
-import com.jojoldu.incomebot.batch.job.notify.parser.LectureParseExecutor;
-import com.jojoldu.incomebot.batch.job.notify.parser.ParseResult;
-import com.jojoldu.incomebot.batch.job.notify.parser.book.BookParseResult;
-import com.jojoldu.incomebot.batch.job.notify.parser.online.OnlineParseResult;
 import com.jojoldu.incomebot.batch.telegram.TelegramMessage;
 import com.jojoldu.incomebot.batch.telegram.TelegramNotifier;
 import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
 import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.lecture.Lecture;
+import com.jojoldu.incomebot.parser.parser.LectureParseExecutor;
+import com.jojoldu.incomebot.parser.parser.ParseResult;
+import com.jojoldu.incomebot.parser.parser.book.BookParseResult;
+import com.jojoldu.incomebot.parser.parser.online.OnlineParseResult;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;

@@ -1,9 +1,6 @@
 package com.jojoldu.incomebot.batch.job.notify.processor;
 
 import com.jojoldu.incomebot.batch.job.notify.NotifyJobProcessor;
-import com.jojoldu.incomebot.batch.job.notify.parser.LectureParseExecutor;
-import com.jojoldu.incomebot.batch.job.notify.parser.ParseResult;
-import com.jojoldu.incomebot.batch.job.notify.parser.online.inflearn.InflearnParseResult;
 import com.jojoldu.incomebot.batch.telegram.TelegramMessage;
 import com.jojoldu.incomebot.batch.telegram.TelegramNotifier;
 import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
@@ -12,6 +9,9 @@ import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.lecture.Lecture;
 import com.jojoldu.incomebot.core.lecture.LectureType;
 import com.jojoldu.incomebot.core.lecture.history.online.OnlineLectureHistory;
+import com.jojoldu.incomebot.parser.parser.LectureParseExecutor;
+import com.jojoldu.incomebot.parser.parser.ParseResult;
+import com.jojoldu.incomebot.parser.parser.online.inflearn.InflearnParseResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;

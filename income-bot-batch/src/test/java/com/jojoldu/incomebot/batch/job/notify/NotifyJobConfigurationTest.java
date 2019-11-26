@@ -1,9 +1,6 @@
 package com.jojoldu.incomebot.batch.job.notify;
 
 import com.jojoldu.incomebot.TestBatchConfig;
-import com.jojoldu.incomebot.batch.job.notify.parser.LectureParseExecutor;
-import com.jojoldu.incomebot.batch.job.notify.parser.book.yes24.Yes24ParseResult;
-import com.jojoldu.incomebot.batch.job.notify.parser.online.inflearn.InflearnParseResult;
 import com.jojoldu.incomebot.batch.telegram.TelegramNotifier;
 import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
 import com.jojoldu.incomebot.core.instructor.Instructor;
@@ -15,6 +12,9 @@ import com.jojoldu.incomebot.core.lecture.history.book.BookLectureHistory;
 import com.jojoldu.incomebot.core.lecture.history.book.BookLectureHistoryRepository;
 import com.jojoldu.incomebot.core.lecture.history.online.OnlineLectureHistory;
 import com.jojoldu.incomebot.core.lecture.history.online.OnlineLectureHistoryRepository;
+import com.jojoldu.incomebot.parser.parser.LectureParseExecutor;
+import com.jojoldu.incomebot.parser.parser.book.yes24.Yes24ParseResult;
+import com.jojoldu.incomebot.parser.parser.online.inflearn.InflearnParseResult;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;

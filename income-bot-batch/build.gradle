@@ -1,5 +1,6 @@
 dependencies {
     implementation project(':income-bot-core')
+    implementation project(':income-bot-parser')
 
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.boot:spring-boot-starter-json' // JavaTimeModule
