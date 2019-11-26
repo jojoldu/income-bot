@@ -46,6 +46,7 @@ public class Lecture extends BaseTimeEntity {
     private LectureType lectureType;
     private long beforeScore;
     private long currentScore;
+    private String isbn;
 
     @ManyToOne
     @JoinColumn(name = "instructor_id", foreignKey = @ForeignKey(name = "fk_lecture_instructor"))

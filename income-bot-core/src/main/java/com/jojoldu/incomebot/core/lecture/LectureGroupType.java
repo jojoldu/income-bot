@@ -9,6 +9,7 @@ import java.util.List;
 import static com.jojoldu.incomebot.core.lecture.LectureType.ALADIN;
 import static com.jojoldu.incomebot.core.lecture.LectureType.BANDINLUNIS;
 import static com.jojoldu.incomebot.core.lecture.LectureType.INFLEARN;
+import static com.jojoldu.incomebot.core.lecture.LectureType.INTERPARK;
 import static com.jojoldu.incomebot.core.lecture.LectureType.YES24;
 
 /**
@@ -20,7 +21,7 @@ import static com.jojoldu.incomebot.core.lecture.LectureType.YES24;
 @Getter
 @RequiredArgsConstructor
 public enum LectureGroupType {
-    BOOK("도서", Arrays.asList(YES24, ALADIN, BANDINLUNIS)),
+    BOOK("도서", Arrays.asList(YES24, ALADIN, BANDINLUNIS, INTERPARK)),
     ONLINE("온라인강좌", Arrays.asList(INFLEARN));
 
     private final String title;

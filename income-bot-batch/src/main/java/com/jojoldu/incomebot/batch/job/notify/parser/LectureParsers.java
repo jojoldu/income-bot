@@ -2,6 +2,7 @@ package com.jojoldu.incomebot.batch.job.notify.parser;
 
 import com.jojoldu.incomebot.batch.job.notify.parser.book.aladin.AladinParser;
 import com.jojoldu.incomebot.batch.job.notify.parser.book.bandinlunis.BandinlunisParser;
+import com.jojoldu.incomebot.batch.job.notify.parser.book.interpark.InterParkParser;
 import com.jojoldu.incomebot.batch.job.notify.parser.book.yes24.Yes24Parser;
 import com.jojoldu.incomebot.batch.job.notify.parser.online.inflearn.InflearnParser;
 import com.jojoldu.incomebot.core.lecture.LectureType;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum LectureParsers implements LectureParser {
     YES24(LectureType.YES24, new Yes24Parser()),
+    INTERPARK(LectureType.INTERPARK, new InterParkParser()),
     ALADIN(LectureType.ALADIN, new AladinParser()),
     BANDINLUNIS(LectureType.BANDINLUNIS, new BandinlunisParser()),
     INFLEARN(LectureType.INFLEARN, new InflearnParser());
