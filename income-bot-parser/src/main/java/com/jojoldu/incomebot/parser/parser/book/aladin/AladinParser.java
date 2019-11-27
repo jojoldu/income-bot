@@ -1,10 +1,12 @@
 package com.jojoldu.incomebot.parser.parser.book.aladin;
 
-import com.jojoldu.incomebot.parser.parser.LectureParser;
+import com.jojoldu.incomebot.core.lecture.LectureType;
+import com.jojoldu.incomebot.parser.parser.book.BookParser;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
@@ -16,7 +18,27 @@ import static java.lang.Long.parseLong;
  * Github : http://github.com/jojoldu
  */
 @Slf4j
-public class AladinParser implements LectureParser<AladinParseResult> {
+public class AladinParser implements BookParser<AladinParseResult> {
+
+    @Override
+    public String getIsbnQuery() {
+        return "https://www.aladin.co.kr/search/wsearchresult.aspx?SearchTarget=All&SearchWord=%s";
+    }
+
+    @Override
+    public LectureType getStore() {
+        return LectureType.ALADIN;
+    }
+
+    @Override
+    public Elements extractProductLink(Document document) {
+        return document.select("#Myform table .ss_book_list a");
+    }
+
+    @Override
+    public String appendProductLink(String link) {
+        return link;
+    }
 
     @Override
     public AladinParseResult parse(String url) {
@@ -24,7 +46,7 @@ public class AladinParser implements LectureParser<AladinParseResult> {
             Document document = Jsoup.connect(url).get();
             return new AladinParseResult(getSalesPoint(document));
         } catch (IOException e) {
-            log.error("알라딘 URL 파싱에 실패하였습니다.");
+            log.error("알라딘 URL 파싱에 실패하였습니다.", e);
         }
         return AladinParseResult.EMPTY;
     }

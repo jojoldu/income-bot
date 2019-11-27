@@ -33,4 +33,16 @@ public class Yes24ParserTest {
         assertThat(salesPoint).isGreaterThanOrEqualTo(1);
     }
 
+    @Test
+    public void isbn_링크_가져온다() {
+        //given
+        String isbn = "9788965402602";
+
+        //when
+        String result = parser.getProductLinkByISBN(isbn);
+
+        //then
+        assertThat(result).isEqualTo("http://www.yes24.com/Product/Goods/83849117?scode=032&OzSrank=1");
+    }
+
 }
