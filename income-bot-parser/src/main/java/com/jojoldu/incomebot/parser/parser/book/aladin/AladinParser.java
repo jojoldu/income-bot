@@ -52,7 +52,8 @@ public class AladinParser implements BookParser<AladinParseResult> {
     }
 
     private long getSalesPoint(Document document) {
-        Element section = document.select("#wa_product_top1_wa_Top_Ranking_pnlRanking .Ere_fs15 strong").get(0);
+        Elements elements = document.select("#wa_product_top1_wa_Top_Ranking_pnlRanking .Ere_fs15 strong");
+        Element section = elements.get(elements.size() - 1);
         String content = section.text();
         return parseLong(content.replace(",", ""));
     }

@@ -24,7 +24,7 @@ public class AladinUrlJsoupTest {
         Elements salesPointElements = document.select("#wa_product_top1_wa_Top_Ranking_pnlRanking .Ere_fs15 strong");
 
         //then
-        String text = salesPointElements.get(0).text().replace(",", "");
+        String text = salesPointElements.get(salesPointElements.size() - 1).text().replace(",", "");
         System.out.println(text);
         assertThat(Long.parseLong(text)).isGreaterThanOrEqualTo(1L);
     }

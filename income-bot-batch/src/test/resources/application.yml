@@ -2,7 +2,6 @@ spring:
   profiles:
     include:
       - core
-      - bot
     active: local
   batch.job.names: ${job.name:NONE}
   jpa:

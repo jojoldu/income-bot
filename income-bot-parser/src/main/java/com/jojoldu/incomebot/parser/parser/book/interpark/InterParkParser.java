@@ -23,7 +23,7 @@ public class InterParkParser implements BookParser<InterParkParseResult> {
 
     @Override
     public String getIsbnQuery() {
-        return null;
+        return "http://bsearch.interpark.com/dsearch/book.jsp?sch=all&bookblockname=s_main&booklinkname=s_main&bid1=search_auto&bid2=product&bid3=000&bid4=001&query=%s";
     }
 
     @Override
@@ -33,7 +33,7 @@ public class InterParkParser implements BookParser<InterParkParseResult> {
 
     @Override
     public Elements extractProductLink(Document document) {
-        return null;
+        return document.select(".list_wrap .tit a");
     }
 
     @Override
