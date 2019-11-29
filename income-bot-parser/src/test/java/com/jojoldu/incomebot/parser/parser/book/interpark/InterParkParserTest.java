@@ -14,7 +14,7 @@ public class InterParkParserTest {
     @Test
     public void 판매지수_Element_찾기() throws Exception {
         //given
-        String url = "http://book.interpark.com/product/BookDisplay.do?_method=detail&sc.shopNo=0000400000&sc.prdNo=292639632&sc.saNo=003002001&bid1=search&bid2=product&bid3=title&bid4=001";
+        String url = "http://book.interpark.com/product/BookDisplay.do?_method=detail&sc.prdNo=321796760";
         InterParkParser parkParser = new InterParkParser();
 
         //when

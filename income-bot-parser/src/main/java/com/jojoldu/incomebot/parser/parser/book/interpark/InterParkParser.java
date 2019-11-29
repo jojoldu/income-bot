@@ -53,7 +53,7 @@ public class InterParkParser implements BookParser<InterParkParseResult> {
     }
 
     private long getSalesPoint(Document document) {
-        Element section = document.select(".indexBox").get(0);
+        Element section = document.select(".saleIndexWrap .indexBox span").get(0);
         String content = section.text();
         return parseLong(content.replaceAll("\\D+", ""));
     }
