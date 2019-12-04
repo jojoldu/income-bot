@@ -22,7 +22,7 @@ public class InterParkParserTest {
 
         //then
         System.out.println(result);
-        assertThat(result.getSalesPoint()).isGreaterThanOrEqualTo(1L);
+        assertThat(result.getCurrentScore()).isGreaterThanOrEqualTo(1L);
     }
 
 }

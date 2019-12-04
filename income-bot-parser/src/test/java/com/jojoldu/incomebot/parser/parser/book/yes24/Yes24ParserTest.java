@@ -26,7 +26,7 @@ public class Yes24ParserTest {
         String url = "http://www.yes24.com/Product/Goods/64584833";
 
         //when
-        long salesPoint = parser.parse(url).getSalesPoint();
+        long salesPoint = parser.parse(url).getCurrentScore();
 
         //then
         log.info("salesPoint= " + salesPoint);

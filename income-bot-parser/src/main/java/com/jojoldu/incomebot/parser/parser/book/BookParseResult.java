@@ -8,10 +8,4 @@ import com.jojoldu.incomebot.parser.parser.ParseResult;
  * Github : http://github.com/jojoldu
  */
 public interface BookParseResult extends ParseResult {
-    long getSalesPoint();
-
-    @Override
-    default long getCurrentScore() {
-        return getSalesPoint();
-    }
 }

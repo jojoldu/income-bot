@@ -20,16 +20,16 @@ public class InterParkParseResult implements BookParseResult {
     public static final InterParkParseResult EMPTY = new InterParkParseResult(0);
     private static final String TEXT_FORMAT = "[인터파크] \"{goods}\"의 판매지수가 {addScore} 되어 현재 {newScore} 를 달성했습니다.";
 
-    private final long salesPoint;
+    private final long currentScore;
 
     @Override
     public String getMessage(long beforeScore, String goods) {
-        long changeScore = salesPoint - beforeScore;
+        long changeScore = currentScore - beforeScore;
         String code = changeScore >= 0 ? "+" : "-";
 
         return TEXT_FORMAT
                 .replaceAll("\\{goods\\}", goods)
                 .replaceAll("\\{addScore\\}", code + toAbsCommaNumber(changeScore))
-                .replaceAll("\\{newScore\\}", toAbsCommaNumber(salesPoint));
+                .replaceAll("\\{newScore\\}", toAbsCommaNumber(currentScore));
     }
 }
