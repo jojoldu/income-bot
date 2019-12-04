@@ -3,6 +3,7 @@ package com.jojoldu.incomebot.parser.parser.book.kyobo;
 import com.jojoldu.incomebot.parser.parser.book.BookParseResult;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import static com.jojoldu.incomebot.parser.util.NumberUtils.toAbsCommaNumber;
 
@@ -11,7 +12,7 @@ import static com.jojoldu.incomebot.parser.util.NumberUtils.toAbsCommaNumber;
  * Blog : http://jojoldu.tistory.com
  * Github : http://github.com/jojoldu
  */
-
+@ToString
 @Getter
 @RequiredArgsConstructor
 public class KyoboParseResult implements BookParseResult {
@@ -28,12 +29,15 @@ public class KyoboParseResult implements BookParseResult {
     @Override
     public String getMessage(long beforeScore, String goods) {
         long changeScore = beforeScore - currentScore;
-        String increaseMode = changeScore >= 0 ? "상승" : "하강";
 
         return TEXT_FORMAT
                 .replaceAll("\\{goods\\}", goods)
                 .replaceAll("\\{addScore\\}", toAbsCommaNumber(changeScore))
-                .replaceAll("\\{increaseMode\\}", increaseMode)
+                .replaceAll("\\{increaseMode\\}", getIncreaseMode(beforeScore))
                 .replaceAll("\\{newScore\\}", toAbsCommaNumber(currentScore));
+    }
+
+    public String getIncreaseMode(long beforeScore) {
+        return beforeScore - currentScore >= 0 ? "상승" : "하강";
     }
 }
