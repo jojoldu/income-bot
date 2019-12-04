@@ -1,13 +1,12 @@
 package com.jojoldu.incomebot.parser.parser.book.kyobo;
 
 import com.jojoldu.incomebot.core.lecture.LectureType;
+import com.jojoldu.incomebot.parser.exception.LectureParseException;
 import com.jojoldu.incomebot.parser.parser.book.BookParser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import java.io.IOException;
 
 import static com.jojoldu.incomebot.core.lecture.LectureType.KYOBO;
 import static java.lang.Long.parseLong;
@@ -44,10 +43,10 @@ public class KyoboParser implements BookParser<KyoboParseResult> {
         try {
             Document document = Jsoup.connect(url).get();
             return new KyoboParseResult(getRank(document));
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("교보문고 URL 파싱에 실패하였습니다.", e);
+            throw new LectureParseException(getStore(), e);
         }
-        return KyoboParseResult.EMPTY;
     }
 
     private long getRank(Document document) {

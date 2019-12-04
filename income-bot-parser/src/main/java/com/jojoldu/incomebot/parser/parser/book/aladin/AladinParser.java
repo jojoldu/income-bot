@@ -1,14 +1,13 @@
 package com.jojoldu.incomebot.parser.parser.book.aladin;
 
 import com.jojoldu.incomebot.core.lecture.LectureType;
+import com.jojoldu.incomebot.parser.exception.LectureParseException;
 import com.jojoldu.incomebot.parser.parser.book.BookParser;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import java.io.IOException;
 
 import static java.lang.Long.parseLong;
 
@@ -45,10 +44,10 @@ public class AladinParser implements BookParser<AladinParseResult> {
         try {
             Document document = Jsoup.connect(url).get();
             return new AladinParseResult(getSalesPoint(document));
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("알라딘 URL 파싱에 실패하였습니다.", e);
+            throw new LectureParseException(getStore(), e);
         }
-        return AladinParseResult.EMPTY;
     }
 
     private long getSalesPoint(Document document) {
