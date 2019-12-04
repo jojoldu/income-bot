@@ -3,6 +3,7 @@ package com.jojoldu.incomebot.parser.parser.online.inflearn;
 import com.jojoldu.incomebot.parser.parser.online.OnlineParseResult;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import static com.jojoldu.incomebot.parser.util.NumberUtils.toAbsCommaNumber;
 
@@ -12,6 +13,7 @@ import static com.jojoldu.incomebot.parser.util.NumberUtils.toAbsCommaNumber;
  * Github : http://github.com/jojoldu
  */
 
+@ToString
 @Getter
 @RequiredArgsConstructor
 public class InflearnParseResult implements OnlineParseResult {
