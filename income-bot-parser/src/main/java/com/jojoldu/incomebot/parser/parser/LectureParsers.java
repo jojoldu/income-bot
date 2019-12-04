@@ -4,6 +4,7 @@ import com.jojoldu.incomebot.core.lecture.LectureType;
 import com.jojoldu.incomebot.parser.parser.book.aladin.AladinParser;
 import com.jojoldu.incomebot.parser.parser.book.bandinlunis.BandinlunisParser;
 import com.jojoldu.incomebot.parser.parser.book.interpark.InterParkParser;
+import com.jojoldu.incomebot.parser.parser.book.kyobo.KyoboParser;
 import com.jojoldu.incomebot.parser.parser.book.yes24.Yes24Parser;
 import com.jojoldu.incomebot.parser.parser.online.inflearn.InflearnParser;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public enum LectureParsers implements LectureParser {
     INTERPARK(LectureType.INTERPARK, new InterParkParser()),
     ALADIN(LectureType.ALADIN, new AladinParser()),
     BANDINLUNIS(LectureType.BANDINLUNIS, new BandinlunisParser()),
+    KYOBO(LectureType.KYOBO, new KyoboParser()),
     INFLEARN(LectureType.INFLEARN, new InflearnParser());
 
     private final LectureType lectureType;
