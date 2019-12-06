@@ -45,8 +45,7 @@ public class NotifyJobProcessor implements ItemProcessor<Instructor, List<Lectur
     public List<Lecture> process(Instructor item) throws Exception {
         return item.getLectures().stream()
                 .map(l -> notify(item.getChatId(), l))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .filter(Optional::isPresent).map(Optional::get)
                 .collect(Collectors.toList());
     }
 

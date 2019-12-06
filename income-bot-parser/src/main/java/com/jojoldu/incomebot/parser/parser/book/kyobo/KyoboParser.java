@@ -50,7 +50,8 @@ public class KyoboParser implements BookParser<KyoboParseResult> {
     }
 
     private long getRank(Document document) {
-        Element section = document.select(".rank a em").get(0);
+        Elements elements = document.select(".rank a em");
+        Element section = elements.get(elements.size() - 1);
         String content = section.text();
         return parseLong(content.replaceAll("\\D+", ""));
     }

@@ -133,15 +133,15 @@ public class Lecture extends BaseTimeEntity {
         return !isUpdated(newScore);
     }
 
-    public boolean isUpdated(long newScore) {
-        return this.currentScore != newScore;
-    }
-
     public void refreshScore(long currentScore) {
-        if(isUpdated(currentScore)) {
+        if (isUpdated(currentScore)) {
             this.beforeScore = this.currentScore;
             this.currentScore = currentScore;
         }
+    }
+
+    public boolean isUpdated(long newScore) {
+        return this.currentScore != newScore;
     }
 
 
