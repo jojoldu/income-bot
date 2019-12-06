@@ -31,7 +31,7 @@ public class AladinParser implements BookParser<AladinParseResult> {
 
     @Override
     public Elements extractProductLink(Document document) {
-        return document.select("#Myform table .ss_book_list a");
+        return document.select("#Myform table .ss_book_list .bo3");
     }
 
     @Override
