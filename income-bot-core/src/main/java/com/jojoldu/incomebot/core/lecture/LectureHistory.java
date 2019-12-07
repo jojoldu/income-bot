@@ -1,4 +1,4 @@
-package com.jojoldu.incomebot.core.lecture.history;
+package com.jojoldu.incomebot.core.lecture;
 
 /**
  * Created by jojoldu@gmail.com on 26/10/2019

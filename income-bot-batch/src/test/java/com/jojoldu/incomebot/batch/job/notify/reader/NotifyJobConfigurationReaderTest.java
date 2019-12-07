@@ -5,6 +5,8 @@ import com.jojoldu.incomebot.batch.common.QuerydslPagingItemReader;
 import com.jojoldu.incomebot.batch.job.notify.NotifyJobConfiguration;
 import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.instructor.InstructorRepository;
+import com.jojoldu.incomebot.core.lecture.online.OnlineLecture;
+import com.jojoldu.incomebot.core.lecture.online.store.OnlineLectureStore;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +23,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
-import static com.jojoldu.incomebot.core.instructor.Instructor.signup;
 import static com.jojoldu.incomebot.core.instructor.IntervalType.DAY_1;
+import static com.jojoldu.incomebot.core.instructor.IntervalType.HOUR_1;
+import static com.jojoldu.incomebot.core.lecture.online.store.OnlineLectureStoreType.INFLEARN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -40,7 +43,7 @@ public class NotifyJobConfigurationReaderTest {
     private JobLauncherTestUtils jobLauncherTestUtils;
 
     @Autowired
-    private QuerydslPagingItemReader<Instructor> reader;
+    private QuerydslPagingItemReader<OnlineLecture> reader;
 
     @Autowired
     private InstructorRepository instructorRepository;
@@ -62,18 +65,26 @@ public class NotifyJobConfigurationReaderTest {
     @Test
     public void 해당되는_interval_instructor이_조회된다() throws Exception {
         //given
-        int expected = 123;
-        Instructor unExpected = signup(567);
-        unExpected.updateInterval(DAY_1);
-        instructorRepository.saveAll(Arrays.asList(signup(expected), unExpected));
+        Instructor expected = new Instructor(123, HOUR_1);
+        String expectedTitle = "IntelliJ 를 시작하시는 분들을 위한 가이드";
+        OnlineLecture onlineLecture = new OnlineLecture(expectedTitle);
+        onlineLecture.addStore(OnlineLectureStore.init(INFLEARN, "https://www.inflearn.com/course/intellij-guide#"));
+        expected.addLecture(onlineLecture);
+
+        Instructor unExpected = new Instructor(567, DAY_1);
+        OnlineLecture unExpectedLecture = new OnlineLecture("테스트");
+        unExpectedLecture.addStore(OnlineLectureStore.init(INFLEARN, "테스트"));
+        unExpected.addLecture(unExpectedLecture);
+
+        instructorRepository.saveAll(Arrays.asList(expected, unExpected));
 
         reader.open(new ExecutionContext());
 
         //when
-        Instructor instructor = reader.read();
+        OnlineLecture result = reader.read();
 
         //then
-        assertThat(instructor.getChatId()).isEqualTo(expected);
+        assertThat(result.getTitle()).isEqualTo(expectedTitle);
         assertThat(reader.read()).isNull();
     }
 }

@@ -1,4 +1,4 @@
-package com.jojoldu.incomebot.core.lecture.history.online;
+package com.jojoldu.incomebot.core.lecture.online.store.history;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Blog : http://jojoldu.tistory.com
  * Github : http://github.com/jojoldu
  */
-public interface OnlineLectureHistoryRepository extends JpaRepository<OnlineLectureHistory, Long> {
+public interface OnlineLectureStoreHistoryRepository extends JpaRepository<OnlineLectureStoreHistory, Long> {
 }

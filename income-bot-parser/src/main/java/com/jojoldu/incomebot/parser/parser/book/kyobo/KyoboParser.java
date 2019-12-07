@@ -1,6 +1,6 @@
 package com.jojoldu.incomebot.parser.parser.book.kyobo;
 
-import com.jojoldu.incomebot.core.lecture.LectureType;
+import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType;
 import com.jojoldu.incomebot.parser.exception.LectureParseException;
 import com.jojoldu.incomebot.parser.parser.book.BookParser;
 import org.jsoup.Jsoup;
@@ -8,7 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import static com.jojoldu.incomebot.core.lecture.LectureType.KYOBO;
+import static com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType.KYOBO;
 import static java.lang.Long.parseLong;
 
 /**
@@ -24,7 +24,7 @@ public class KyoboParser implements BookParser<KyoboParseResult> {
     }
 
     @Override
-    public LectureType getStore() {
+    public BookLectureStoreType getStore() {
         return KYOBO;
     }
 

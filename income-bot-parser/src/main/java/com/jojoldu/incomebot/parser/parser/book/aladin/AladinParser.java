@@ -1,6 +1,6 @@
 package com.jojoldu.incomebot.parser.parser.book.aladin;
 
-import com.jojoldu.incomebot.core.lecture.LectureType;
+import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType;
 import com.jojoldu.incomebot.parser.exception.LectureParseException;
 import com.jojoldu.incomebot.parser.parser.book.BookParser;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import static com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType.ALADIN;
 import static java.lang.Long.parseLong;
 
 /**
@@ -25,8 +26,8 @@ public class AladinParser implements BookParser<AladinParseResult> {
     }
 
     @Override
-    public LectureType getStore() {
-        return LectureType.ALADIN;
+    public BookLectureStoreType getStore() {
+        return ALADIN;
     }
 
     @Override

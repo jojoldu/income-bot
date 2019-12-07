@@ -4,8 +4,12 @@ import com.jojoldu.incomebot.batch.common.JpaItemListWriter;
 import com.jojoldu.incomebot.batch.common.QuerydslPagingItemReader;
 import com.jojoldu.incomebot.batch.job.JobChunkSize;
 import com.jojoldu.incomebot.batch.job.notify.parameter.NotifyJobParameter;
-import com.jojoldu.incomebot.core.instructor.Instructor;
-import com.jojoldu.incomebot.core.lecture.Lecture;
+import com.jojoldu.incomebot.batch.job.notify.processor.BookNotifyJobProcessor;
+import com.jojoldu.incomebot.batch.job.notify.processor.OnlineNotifyJobProcessor;
+import com.jojoldu.incomebot.core.lecture.book.BookLecture;
+import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStore;
+import com.jojoldu.incomebot.core.lecture.online.OnlineLecture;
+import com.jojoldu.incomebot.core.lecture.online.store.OnlineLectureStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -22,6 +26,8 @@ import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 import static com.jojoldu.incomebot.core.instructor.QInstructor.instructor;
+import static com.jojoldu.incomebot.core.lecture.book.QBookLecture.bookLecture;
+import static com.jojoldu.incomebot.core.lecture.online.QOnlineLecture.onlineLecture;
 
 /**
  * Created by jojoldu@gmail.com on 12/10/2019
@@ -51,43 +57,81 @@ public class NotifyJobConfiguration {
     @Bean(JOB_NAME)
     public Job job() {
         return jobBuilderFactory.get(JOB_NAME)
-                .start(step())
+                .start(bookStep())
+                .next(onlineStep())
                 .preventRestart()
                 .build();
     }
 
-    @Bean(BEAN_PREFIX + "step")
+    @Bean(BEAN_PREFIX + "bookStep")
     @JobScope
-    public Step step() {
-        return stepBuilderFactory.get(BEAN_PREFIX + "step")
-                .<Instructor, List<Lecture>>chunk(jobChunkSize.getChunkSize())
-                .reader(reader())
-                .processor(processor())
-                .writer(writer())
+    public Step bookStep() {
+        return stepBuilderFactory.get(BEAN_PREFIX + "bookStep")
+                .<BookLecture, List<BookLectureStore>>chunk(jobChunkSize.getChunkSize())
+                .reader(bookReader())
+                .processor(bookProcessor())
+                .writer(bookWriter())
                 .build();
     }
 
-    @Bean(BEAN_PREFIX + "reader")
+    @Bean(BEAN_PREFIX + "bookReader")
     @StepScope
-    public QuerydslPagingItemReader<Instructor> reader() {
+    public QuerydslPagingItemReader<BookLecture> bookReader() {
         return new QuerydslPagingItemReader<>(emf, jobChunkSize.getChunkSize(), queryFactory -> queryFactory
-                .selectFrom(instructor)
+                .select(bookLecture)
+                .from(bookLecture)
+                .join(bookLecture.instructor, instructor).fetchJoin()
+                .join(bookLecture.stores)
                 .where(instructor.intervalType.eq(jobParameter.getInterval()))
         );
     }
 
-    @Bean(BEAN_PREFIX + "processor")
+    @Bean(BEAN_PREFIX + "bookProcessor")
     @StepScope
-    public NotifyJobProcessor processor() {
-        return new NotifyJobProcessor();
+    public BookNotifyJobProcessor bookProcessor() {
+        return new BookNotifyJobProcessor();
     }
 
-    @Bean(BEAN_PREFIX + "writer")
-    public JpaItemListWriter<Lecture> writer() {
-        JpaItemWriter<Lecture> itemWriter = new JpaItemWriter<>();
+    @Bean(BEAN_PREFIX + "bookWriter")
+    public JpaItemListWriter<BookLectureStore> bookWriter() {
+        JpaItemWriter<BookLectureStore> itemWriter = new JpaItemWriter<>();
         itemWriter.setEntityManagerFactory(emf);
         return new JpaItemListWriter<>(itemWriter);
     }
 
+    @Bean(BEAN_PREFIX + "onlineStep")
+    @JobScope
+    public Step onlineStep() {
+        return stepBuilderFactory.get(BEAN_PREFIX + "onlineStep")
+                .<OnlineLecture, List<OnlineLectureStore>>chunk(jobChunkSize.getChunkSize())
+                .reader(onlineReader())
+                .processor(onlineProcessor())
+                .writer(onlineWriter())
+                .build();
+    }
 
+    @Bean(BEAN_PREFIX + "onlineReader")
+    @StepScope
+    public QuerydslPagingItemReader<OnlineLecture> onlineReader() {
+        return new QuerydslPagingItemReader<>(emf, jobChunkSize.getChunkSize(), queryFactory -> queryFactory
+                .select(onlineLecture)
+                .from(onlineLecture)
+                .join(onlineLecture.instructor, instructor).fetchJoin()
+                .join(onlineLecture.stores)
+                .where(instructor.intervalType.eq(jobParameter.getInterval()))
+        );
+    }
+
+    @Bean(BEAN_PREFIX + "onlineProcessor")
+    @StepScope
+    public OnlineNotifyJobProcessor onlineProcessor() {
+        return new OnlineNotifyJobProcessor();
+    }
+
+    @Bean(BEAN_PREFIX + "onlineWriter")
+    public JpaItemListWriter<OnlineLectureStore> onlineWriter() {
+        JpaItemWriter<OnlineLectureStore> itemWriter = new JpaItemWriter<>();
+        itemWriter.setEntityManagerFactory(emf);
+        return new JpaItemListWriter<>(itemWriter);
+    }
 }

@@ -1,4 +1,4 @@
-package com.jojoldu.incomebot.core.lecture;
+package com.jojoldu.incomebot.core.lecture.book.store;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +11,13 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum LectureGroupType {
-    BOOK("도서"),
-    ONLINE("온라인강좌");
+public enum BookLectureStoreType {
+    YES24("예스24"),
+    ALADIN("알라딘"),
+    BANDINLUNIS("반디앤루니스"),
+    INTERPARK("인터파크"),
+    KYOBO("교보문고");
 
     private final String title;
+
 }

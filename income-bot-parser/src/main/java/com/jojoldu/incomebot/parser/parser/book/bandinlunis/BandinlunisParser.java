@@ -1,6 +1,6 @@
 package com.jojoldu.incomebot.parser.parser.book.bandinlunis;
 
-import com.jojoldu.incomebot.core.lecture.LectureType;
+import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType;
 import com.jojoldu.incomebot.parser.exception.LectureParseException;
 import com.jojoldu.incomebot.parser.parser.book.BookParser;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import static com.jojoldu.incomebot.core.lecture.LectureType.BANDINLUNIS;
+import static com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType.BANDINLUNIS;
 import static java.lang.Long.parseLong;
 
 /**
@@ -26,7 +26,7 @@ public class BandinlunisParser implements BookParser<BandinlunisParseResult> {
     }
 
     @Override
-    public LectureType getStore() {
+    public BookLectureStoreType getStore() {
         return BANDINLUNIS;
     }
 

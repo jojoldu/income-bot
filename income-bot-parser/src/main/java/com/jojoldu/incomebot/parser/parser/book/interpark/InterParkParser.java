@@ -1,6 +1,6 @@
 package com.jojoldu.incomebot.parser.parser.book.interpark;
 
-import com.jojoldu.incomebot.core.lecture.LectureType;
+import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType;
 import com.jojoldu.incomebot.parser.exception.LectureParseException;
 import com.jojoldu.incomebot.parser.parser.book.BookParser;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import static com.jojoldu.incomebot.core.lecture.LectureType.INTERPARK;
+import static com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType.INTERPARK;
 import static java.lang.Long.parseLong;
 
 /**
@@ -26,7 +26,7 @@ public class InterParkParser implements BookParser<InterParkParseResult> {
     }
 
     @Override
-    public LectureType getStore() {
+    public BookLectureStoreType getStore() {
         return INTERPARK;
     }
 

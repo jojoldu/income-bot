@@ -9,7 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
 
-import static com.jojoldu.incomebot.core.lecture.LectureType.INFLEARN;
+import static com.jojoldu.incomebot.core.lecture.online.store.OnlineLectureStoreType.INFLEARN;
 import static java.lang.Long.parseLong;
 
 /**

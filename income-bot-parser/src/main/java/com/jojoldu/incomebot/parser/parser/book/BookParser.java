@@ -1,6 +1,6 @@
 package com.jojoldu.incomebot.parser.parser.book;
 
-import com.jojoldu.incomebot.core.lecture.LectureType;
+import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType;
 import com.jojoldu.incomebot.parser.exception.LectureParseException;
 import com.jojoldu.incomebot.parser.parser.LectureParser;
 import com.jojoldu.incomebot.parser.parser.ParseResult;
@@ -53,7 +53,7 @@ public interface BookParser<T extends ParseResult> extends LectureParser {
 
     String getIsbnQuery();
 
-    LectureType getStore();
+    BookLectureStoreType getStore();
 
     Elements extractProductLink(Document document);
 

@@ -7,8 +7,8 @@ package com.jojoldu.incomebot.core.instructor;
  */
 
 import com.jojoldu.incomebot.core.BaseTimeEntity;
-import com.jojoldu.incomebot.core.lecture.Lecture;
-import com.jojoldu.incomebot.core.lecture.LectureType;
+import com.jojoldu.incomebot.core.lecture.book.BookLecture;
+import com.jojoldu.incomebot.core.lecture.online.OnlineLecture;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,6 @@ import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +50,13 @@ public class Instructor extends BaseTimeEntity {
     private IntervalType intervalType;
 
     @OneToMany(mappedBy = "instructor", cascade = ALL)
-    private List<Lecture> lectures = new ArrayList<>();
+    private List<BookLecture> bookLectures = new ArrayList<>();
+
+    @OneToMany(mappedBy = "instructor", cascade = ALL)
+    private List<OnlineLecture> onlineLectures = new ArrayList<>();
 
     @Builder
-    Instructor(long chatId, IntervalType intervalType) {
+    public Instructor(long chatId, IntervalType intervalType) {
         this.chatId = chatId;
         this.intervalType = intervalType;
     }
@@ -66,13 +68,13 @@ public class Instructor extends BaseTimeEntity {
                 .build();
     }
 
-    public void addLecture (String title, String url, LectureType lectureType) {
-        Lecture lecture = Lecture.init(title, url, lectureType);
-        this.addLecture(lecture);
+    public void addLecture(BookLecture lecture) {
+        this.bookLectures.add(lecture);
+        lecture.setInstructor(this);
     }
 
-    public void addLecture (Lecture lecture) {
-        this.lectures.add(lecture);
+    public void addLecture(OnlineLecture lecture) {
+        this.onlineLectures.add(lecture);
         lecture.setInstructor(this);
     }
 
