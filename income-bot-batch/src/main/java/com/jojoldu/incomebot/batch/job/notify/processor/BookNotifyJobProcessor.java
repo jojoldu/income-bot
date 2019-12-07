@@ -13,6 +13,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -42,16 +43,17 @@ public class BookNotifyJobProcessor implements ItemProcessor<BookLecture, List<B
     public List<BookLectureStore> process(BookLecture item) throws Exception {
         return item.getStores().stream()
                 .map(this::notify)
+                .filter(Optional::isPresent).map(Optional::get)
                 .collect(Collectors.toList());
     }
 
     /**
      * store 별로 notify하기
      */
-    public BookLectureStore notify(BookLectureStore store) {
+    public Optional<BookLectureStore> notify(BookLectureStore store) {
         return lectureParserRestTemplate.parse(store.getUrl(), store.getStoreType())
                 .filter(parseResult -> store.isUpdatable(parseResult.getCurrentScore()))
-                .map(parseResult -> notify(store, parseResult)).get();
+                .map(parseResult -> notify(store, parseResult));
     }
 
     private BookLectureStore notify(BookLectureStore store, BookParseResult parseResult) {

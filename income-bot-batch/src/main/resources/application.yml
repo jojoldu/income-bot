@@ -13,3 +13,7 @@ logging.level:
 ---
 spring:
   profiles: local
+
+---
+spring:
+  profiles: real
