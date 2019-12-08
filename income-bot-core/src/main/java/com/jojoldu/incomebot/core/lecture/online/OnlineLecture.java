@@ -13,7 +13,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -28,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.ConstraintMode.NO_CONSTRAINT;
 
 @Getter
 @NoArgsConstructor
@@ -47,10 +47,11 @@ public class OnlineLecture extends BaseTimeEntity {
 
     @SuppressWarnings("JpaDataSourceORMInspection")
     @ManyToOne
-    @JoinColumn(name = "instructor_id", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "instructor_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private Instructor instructor;
 
     @OneToMany(mappedBy = "lecture", cascade = ALL)
+    @org.hibernate.annotations.ForeignKey(name = "none")
     private List<OnlineLectureStore> stores = new ArrayList<>();
 
     @Builder

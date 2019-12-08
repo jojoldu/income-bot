@@ -12,6 +12,7 @@ import com.jojoldu.incomebot.core.lecture.online.OnlineLecture;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ForeignKey;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -50,9 +51,11 @@ public class Instructor extends BaseTimeEntity {
     private IntervalType intervalType;
 
     @OneToMany(mappedBy = "instructor", cascade = ALL)
+    @ForeignKey(name = "none")
     private List<BookLecture> bookLectures = new ArrayList<>();
 
     @OneToMany(mappedBy = "instructor", cascade = ALL)
+    @ForeignKey(name = "none")
     private List<OnlineLecture> onlineLectures = new ArrayList<>();
 
     @Builder

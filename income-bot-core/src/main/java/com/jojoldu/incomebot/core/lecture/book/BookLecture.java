@@ -47,10 +47,11 @@ public class BookLecture extends BaseTimeEntity {
 
     @SuppressWarnings("JpaDataSourceORMInspection")
     @ManyToOne
-    @JoinColumn(name = "instructor_id", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "instructor_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Instructor instructor;
 
     @OneToMany(mappedBy = "lecture", cascade = ALL)
+    @org.hibernate.annotations.ForeignKey(name = "none")
     private List<BookLectureStore> stores = new ArrayList<>();
 
     @Builder
