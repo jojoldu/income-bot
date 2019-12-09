@@ -59,7 +59,7 @@ public class OnlineNotifyJobProcessor implements ItemProcessor<OnlineLecture, Li
     private OnlineLectureStore notify(OnlineLectureStore store, OnlineParseResult parseResult) {
         @SuppressWarnings("DuplicatedCode") long beforeScore = store.getCurrentScore();
 
-        TelegramMessage message = new TelegramMessage(store.getChatId(), parseResult.getMessage(beforeScore, store.getTitle()));
+        TelegramMessage message = new TelegramMessage(store.getChatId(), parseResult.getMessage(beforeScore, 0, store.getTitle()));
         TelegramResponse response = telegramNotifier.notify(message);
 
         store.refreshScore(parseResult.getCurrentScore(), response.getSendedMessage(), response.getSendTime());

@@ -8,4 +8,19 @@ import com.jojoldu.incomebot.parser.parser.ParseResult;
  * Github : http://github.com/jojoldu
  */
 public interface BookParseResult extends ParseResult {
+    int getCurrentRank();
+
+    String getMessageFormat();
+
+    @Override
+    default String getMessage(long beforeScore, int beforeRank, String goods) {
+        return new BookParseMessage(
+                getMessageFormat(),
+                goods,
+                beforeScore,
+                getCurrentScore(),
+                beforeRank,
+                getCurrentRank())
+                .createMessage();
+    }
 }

@@ -24,7 +24,7 @@ public class InflearnParseResult implements OnlineParseResult {
     private final long coursePrice;
 
     @Override
-    public String getMessage(long beforeScore, String goods) {
+    public String getMessage(long beforeScore, int beforeRank, String goods) {
         long changeScore = studentCount - beforeScore;
         String code = changeScore >= 0 ? "+" : "-";
         long changeAmount = Math.round(changeScore * coursePrice * 0.7 * 0.88);

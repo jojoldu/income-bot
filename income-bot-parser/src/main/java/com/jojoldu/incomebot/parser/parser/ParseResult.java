@@ -7,7 +7,7 @@ package com.jojoldu.incomebot.parser.parser;
  */
 public interface ParseResult {
 
-    String getMessage(long beforeScore, String goods);
+    String getMessage(long beforeScore, int beforeRank, String goods);
 
     long getCurrentScore();
 }

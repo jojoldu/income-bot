@@ -9,7 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import static com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType.KYOBO;
-import static java.lang.Long.parseLong;
+import static com.jojoldu.incomebot.parser.util.NumberUtils.extractDigit;
 
 /**
  * Created by jojoldu@gmail.com on 04/12/2019
@@ -53,6 +53,6 @@ public class KyoboParser implements BookParser<KyoboParseResult> {
         Elements elements = document.select(".rank a em");
         Element section = elements.get(elements.size() - 1);
         String content = section.text();
-        return parseLong(content.replaceAll("\\D+", ""));
+        return extractDigit(content);
     }
 }

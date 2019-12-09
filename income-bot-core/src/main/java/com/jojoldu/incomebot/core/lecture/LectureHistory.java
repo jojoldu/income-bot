@@ -10,6 +10,7 @@ import com.jojoldu.incomebot.core.BaseTimeEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Embedded;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,18 +21,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @MappedSuperclass
 public abstract class LectureHistory extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    protected long beforeScore;
-    protected long currentScore;
+    @Embedded
+    protected LectureScore score;
+
     protected LocalDateTime notifyDateTime;
     protected String message;
 
     public LectureHistory(long beforeScore, long currentScore, LocalDateTime notifyDateTime, String message) {
-        this.beforeScore = beforeScore;
-        this.currentScore = currentScore;
+        this.score = LectureScore.builder().beforeScore(beforeScore).currentScore(currentScore).build();
         this.notifyDateTime = notifyDateTime;
         this.message = message;
     }

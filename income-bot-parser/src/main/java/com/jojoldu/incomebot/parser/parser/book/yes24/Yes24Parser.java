@@ -8,9 +8,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.util.CollectionUtils;
 
 import static com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType.YES24;
-import static java.lang.Long.parseLong;
+import static com.jojoldu.incomebot.parser.util.NumberUtils.extractDigit;
+import static java.lang.Math.toIntExact;
 
 /**
  * Created by jojoldu@gmail.com on 12/10/2019
@@ -44,7 +46,7 @@ public class Yes24Parser implements BookParser<Yes24ParseResult> {
     public Yes24ParseResult parse(String url) {
         try {
             Document document = Jsoup.connect(url).get();
-            return new Yes24ParseResult(getSalesPoint(document));
+            return new Yes24ParseResult(getSalesPoint(document), getRank(document));
         } catch (Exception e) {
             log.error("예스24 URL 파싱에 실패하였습니다.", e);
             throw new LectureParseException(getStore(), e);
@@ -54,7 +56,19 @@ public class Yes24Parser implements BookParser<Yes24ParseResult> {
     private long getSalesPoint(Document document) {
         Element section = document.select(".gd_sellNum").get(0);
         String content = section.text();
-        return parseLong(content.replaceAll("\\D+", ""));
+        return extractDigit(content);
+    }
+
+    private int getRank(Document document) {
+        Elements rankCheck = document.select(".gd_best em");
+        if (CollectionUtils.isEmpty(rankCheck)) {
+            return 0;
+        }
+
+        Elements elements = document.select(".gd_best dd a");
+        Element section = elements.get(0);
+        String content = section.text();
+        return toIntExact(extractDigit(content));
     }
 
 }

@@ -50,5 +50,12 @@ public class OnlineLectureStoreHistory extends LectureHistory {
         this.store = store;
     }
 
+    public long getBeforeScore() {
+        return score.getBeforeScore();
+    }
+
+    public long getCurrentScore() {
+        return score.getCurrentScore();
+    }
 
 }

@@ -58,11 +58,12 @@ public class BookNotifyJobProcessor implements ItemProcessor<BookLecture, List<B
 
     private BookLectureStore notify(BookLectureStore store, BookParseResult parseResult) {
         long beforeScore = store.getCurrentScore();
+        int beforeRank = store.getCurrentRank();
 
-        TelegramMessage message = new TelegramMessage(store.getChatId(), parseResult.getMessage(beforeScore, store.getTitle()));
+        TelegramMessage message = new TelegramMessage(store.getChatId(), parseResult.getMessage(beforeScore, beforeRank, store.getTitle()));
         TelegramResponse response = telegramNotifier.notify(message);
 
-        store.refreshScore(parseResult.getCurrentScore(), response.getSendedMessage(), response.getSendTime());
+        store.refreshScore(parseResult.getCurrentScore(), parseResult.getCurrentRank(), response.getSendedMessage(), response.getSendTime());
 
         return store;
     }

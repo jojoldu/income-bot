@@ -25,7 +25,7 @@ public class LectureScore {
         this.currentScore = currentScore;
     }
 
-    public void refreshScore(long currentScore) {
+    public void refresh(long currentScore) {
         if (isUpdatable(currentScore)) {
             this.beforeScore = this.currentScore;
             this.currentScore = currentScore;

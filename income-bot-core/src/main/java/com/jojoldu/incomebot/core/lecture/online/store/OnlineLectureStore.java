@@ -85,7 +85,7 @@ public class OnlineLectureStore extends BaseTimeEntity {
 
     public void refreshScore(long newScore, String message, LocalDateTime notifyDateTime) {
         this.addHistory(newScore, message, notifyDateTime);
-        score.refreshScore(newScore); // 순서 중요 (먼저 실행되면 현재 스코어가 변경됨)
+        score.refresh(newScore); // 순서 중요 (먼저 실행되면 현재 스코어가 변경됨)
     }
 
     public void addHistory(long newScore, String message, LocalDateTime notifyDateTime) {

@@ -7,6 +7,7 @@ package com.jojoldu.incomebot.core.lecture.book.store;
  */
 
 import com.jojoldu.incomebot.core.BaseTimeEntity;
+import com.jojoldu.incomebot.core.lecture.LectureRank;
 import com.jojoldu.incomebot.core.lecture.LectureScore;
 import com.jojoldu.incomebot.core.lecture.book.BookLecture;
 import com.jojoldu.incomebot.core.lecture.book.store.history.BookLectureStoreHistory;
@@ -55,6 +56,9 @@ public class BookLectureStore extends BaseTimeEntity {
     @Embedded
     private LectureScore score;
 
+    @Embedded
+    private LectureRank rank;
+
     @SuppressWarnings("JpaDataSourceORMInspection")
     @ManyToOne
     @JoinColumn(name = "lecture_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
@@ -65,10 +69,11 @@ public class BookLectureStore extends BaseTimeEntity {
     private List<BookLectureStoreHistory> histories = new ArrayList<>();
 
     @Builder
-    public BookLectureStore(BookLectureStoreType storeType, String url, long beforeScore, long currentScore) {
+    public BookLectureStore(BookLectureStoreType storeType, String url, long beforeScore, long currentScore, int beforeRank, int currentRank) {
         this.storeType = storeType;
         this.url = url;
         this.score = LectureScore.builder().beforeScore(beforeScore).currentScore(currentScore).build();
+        this.rank = LectureRank.builder().beforeRank(beforeRank).currentRank(currentRank).build();
     }
 
     public static BookLectureStore init(BookLectureStoreType storeType, String url) {
@@ -77,6 +82,8 @@ public class BookLectureStore extends BaseTimeEntity {
                 .url(url)
                 .beforeScore(0)
                 .currentScore(0)
+                .beforeRank(0)
+                .currentRank(0)
                 .build();
     }
 
@@ -84,9 +91,10 @@ public class BookLectureStore extends BaseTimeEntity {
         this.lecture = lecture;
     }
 
-    public void refreshScore(long newScore, String message, LocalDateTime notifyDateTime) {
+    public void refreshScore(long newScore, int newRank, String message, LocalDateTime notifyDateTime) {
         this.addHistory(newScore, message, notifyDateTime);
-        score.refreshScore(newScore); // 순서 중요 (먼저 실행되면 현재 스코어가 변경됨)
+        score.refresh(newScore); // 순서 중요 (먼저 실행되면 현재 스코어가 변경됨)
+        rank.refresh(newRank);
     }
 
     public void addHistory(long newScore, String message, LocalDateTime notifyDateTime) {
@@ -109,6 +117,10 @@ public class BookLectureStore extends BaseTimeEntity {
 
     public long getCurrentScore() {
         return score.getCurrentScore();
+    }
+
+    public int getCurrentRank() {
+        return rank.getCurrentRank();
     }
 
     public Long getChatId() {

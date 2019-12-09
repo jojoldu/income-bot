@@ -10,7 +10,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import static com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType.ALADIN;
-import static java.lang.Long.parseLong;
+import static com.jojoldu.incomebot.parser.util.NumberUtils.extractDigit;
+import static java.lang.Math.toIntExact;
 
 /**
  * Created by jojoldu@gmail.com on 12/10/2019
@@ -44,7 +45,7 @@ public class AladinParser implements BookParser<AladinParseResult> {
     public AladinParseResult parse(String url) {
         try {
             Document document = Jsoup.connect(url).get();
-            return new AladinParseResult(getSalesPoint(document));
+            return new AladinParseResult(getSalesPoint(document), getRank(document));
         } catch (Exception e) {
             log.error("알라딘 URL 파싱에 실패하였습니다.", e);
             throw new LectureParseException(getStore(), e);
@@ -55,7 +56,14 @@ public class AladinParser implements BookParser<AladinParseResult> {
         Elements elements = document.select("#wa_product_top1_wa_Top_Ranking_pnlRanking .Ere_fs15 strong");
         Element section = elements.get(elements.size() - 1);
         String content = section.text();
-        return parseLong(content.replace(",", ""));
+        return extractDigit(content);
+    }
+
+    private int getRank(Document document) {
+        Elements elements = document.select("#wa_product_top1_wa_Top_Ranking_pnlRanking .Ere_fs15 a");
+        Element section = elements.get(0);
+        String content = section.text();
+        return toIntExact(extractDigit(content));
     }
 
 }

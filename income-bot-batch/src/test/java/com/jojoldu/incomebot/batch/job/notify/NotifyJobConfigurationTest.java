@@ -128,7 +128,7 @@ public class NotifyJobConfigurationTest {
     public void 예스24가_저장된다() throws Exception {
         //given
         long newScore = 100L;
-        given(lectureParserRestTemplate.parse(anyString(), any(BookLectureStoreType.class))).willReturn(of(new Yes24ParseResult(newScore)));
+        given(lectureParserRestTemplate.parse(anyString(), any(BookLectureStoreType.class))).willReturn(of(new Yes24ParseResult(newScore, 0)));
         given(telegramNotifier.notify(any())).willReturn(telegramResponse("[예스24] \"스프링 부트와 AWS로 혼자 구현하는 웹 서비스\"의 판매지수가 +666 되어 현재 7,812 를 달성했습니다."));
 
         BookLecture bookLecture = BookLecture.builder()
