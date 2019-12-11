@@ -1,10 +1,8 @@
 package com.jojoldu.incomebot.parser.parser.book.yes24;
 
 import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType;
-import com.jojoldu.incomebot.parser.exception.LectureParseException;
 import com.jojoldu.incomebot.parser.parser.book.BookParser;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -13,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 import static com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType.YES24;
 import static com.jojoldu.incomebot.parser.util.NumberUtils.extractDigit;
 import static java.lang.Math.toIntExact;
+import static java.lang.String.format;
 
 /**
  * Created by jojoldu@gmail.com on 12/10/2019
@@ -44,13 +43,8 @@ public class Yes24Parser implements BookParser<Yes24ParseResult> {
 
     @Override
     public Yes24ParseResult parse(String url) {
-        try {
-            Document document = Jsoup.connect(url).get();
-            return new Yes24ParseResult(getSalesPoint(document), getRank(document));
-        } catch (Exception e) {
-            log.error("예스24 URL 파싱에 실패하였습니다.", e);
-            throw new LectureParseException(getStore(), e);
-        }
+        Document document = getDocument(url);
+        return new Yes24ParseResult(getSalesPoint(document), getRank(document));
     }
 
     private long getSalesPoint(Document document) {
@@ -60,15 +54,23 @@ public class Yes24Parser implements BookParser<Yes24ParseResult> {
     }
 
     private int getRank(Document document) {
-        Elements rankCheck = document.select(".gd_best em");
+        Document rankDocument = parseRank(document);
+        Elements rankCheck = rankDocument.select(".gd_best em");
         if (CollectionUtils.isEmpty(rankCheck)) {
             return 0;
         }
 
-        Elements elements = document.select(".gd_best dd a");
+        Elements elements = rankDocument.select(".gd_best dd a");
         Element section = elements.get(0);
         String content = section.text();
         return toIntExact(extractDigit(content));
+    }
+
+    public Document parseRank(Document document) {
+        String productNo = document.baseUri().replace("http://www.yes24.com/Product/Goods/", "");
+        String categoryNo = document.select("#dispNo").val();
+        String url = format("http://www.yes24.com/Product/addModules/BestSellerRank_Book/%s/?categoryNumber=%s", productNo, categoryNo);
+        return getDocument(url);
     }
 
 }

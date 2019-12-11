@@ -7,4 +7,5 @@ package com.jojoldu.incomebot.parser.parser;
  */
 public interface LectureParser<T extends ParseResult> {
     T parse(String url);
+
 }

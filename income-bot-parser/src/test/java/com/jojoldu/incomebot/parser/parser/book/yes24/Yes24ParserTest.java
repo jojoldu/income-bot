@@ -21,7 +21,7 @@ public class Yes24ParserTest {
     }
 
     @Test
-    public void 예스24_강의에서_수강생이_추출된다() {
+    public void 예스24에서_판매지수가_추출된다() {
         //given
         String url = "http://www.yes24.com/Product/Goods/64584833";
 
@@ -45,4 +45,29 @@ public class Yes24ParserTest {
         assertThat(result).isEqualTo("http://www.yes24.com/Product/Goods/83849117?scode=032&OzSrank=1");
     }
 
+    @Test
+    public void 예스24에서_순위가_추출된다() {
+        //given
+        String url = "http://www.yes24.com/Product/Goods/83849117";
+
+        //when
+        int rank = parser.parse(url).getCurrentRank();
+
+        //then
+        log.info("rank= " + rank);
+        assertThat(rank).isGreaterThanOrEqualTo(0);
+    }
+
+    @Test
+    public void 예스24에서_순위밖이면_0이반환된다() {
+        //given
+        String url = "http://www.yes24.com/Product/Goods/64584833";
+
+        //when
+        int rank = parser.parse(url).getCurrentRank();
+
+        //then
+        log.info("rank= " + rank);
+        assertThat(rank).isEqualTo(0);
+    }
 }

@@ -24,6 +24,18 @@ import static java.lang.String.format;
 public interface BookParser<T extends ParseResult> extends LectureParser {
     Logger log = LoggerFactory.getLogger(BookParser.class);
 
+    default Document getDocument(String url) {
+        BookLectureStoreType store = getStore();
+        Document document;
+        try {
+            document = Jsoup.connect(url).get();
+        } catch (Exception e) {
+            log.error("{} URL 파싱에 실패하였습니다.", store.getTitle(), e);
+            throw new LectureParseException(store, e);
+        }
+        return document;
+    }
+
     default String getProductLinkByISBN(String isbn) {
         String store = getStore().getTitle();
 
