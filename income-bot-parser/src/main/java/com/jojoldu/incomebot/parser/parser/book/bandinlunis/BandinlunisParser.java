@@ -1,10 +1,8 @@
 package com.jojoldu.incomebot.parser.parser.book.bandinlunis;
 
 import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType;
-import com.jojoldu.incomebot.parser.exception.LectureParseException;
 import com.jojoldu.incomebot.parser.parser.book.BookParser;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -43,13 +41,8 @@ public class BandinlunisParser implements BookParser<BandinlunisParseResult> {
 
     @Override
     public BandinlunisParseResult parse(String url) {
-        try {
-            Document document = Jsoup.connect(url).get();
-            return new BandinlunisParseResult(getSalesPoint(document), getRank(document));
-        } catch (Exception e) {
-            log.error("반디앤루니스 URL 파싱에 실패하였습니다.", e);
-            throw new LectureParseException(getStore(), e);
-        }
+        Document document = getDocument(url);
+        return new BandinlunisParseResult(getSalesPoint(document), getRank(document));
     }
 
     private long getSalesPoint(Document document) {
