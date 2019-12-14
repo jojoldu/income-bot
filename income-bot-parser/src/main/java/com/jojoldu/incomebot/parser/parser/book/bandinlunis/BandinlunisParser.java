@@ -53,7 +53,7 @@ public class BandinlunisParser implements BookParser<BandinlunisParseResult> {
 
     private int getRank(Document document) {
         Elements elements = document.select(".section_left ul li strong");
-        if (elements.size() > 1) {
+        if (elements.size() == 1) {
             return 0;
         }
 

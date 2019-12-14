@@ -1,6 +1,9 @@
 package com.jojoldu.incomebot.parser.parser.book.bandinlunis;
 
 import org.junit.Before;
+import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by jojoldu@gmail.com on 27/11/2019
@@ -16,15 +19,29 @@ public class BandinlunisParserTest {
         parser = new BandinlunisParser();
     }
 
-//    @Test
-//    public void isbn_링크_가져온다() {
-//        //given
-//        String isbn = "9791162241264";
-//
-//        //when
-//        String result = parser.getProductLinkByISBN(isbn);
-//
-//        //then
-//        assertThat(result).isEqualTo("http://www.bandinlunis.com/front/product/detailProduct.do?prodId=4199501");
-//    }
+    @Test
+    public void 랭킹이있으면_가져온다() {
+        //given
+        String url = "http://www.bandinlunis.com/front/product/detailProduct.do?prodId=4256148";
+
+        //when
+        BandinlunisParseResult parseResult = parser.parse(url);
+
+        //then
+        System.out.println(parseResult);
+        assertThat(parseResult.getCurrentScore()).isGreaterThanOrEqualTo(0);
+    }
+
+    @Test
+    public void 랭킹이없으면_0이반환된다() {
+        //given
+        String url = "http://www.bandinlunis.com/front/product/detailProduct.do?prodId=4296899";
+
+        //when
+        BandinlunisParseResult parseResult = parser.parse(url);
+
+        //then
+        System.out.println(parseResult);
+        assertThat(parseResult.getCurrentRank()).isEqualTo(0);
+    }
 }
