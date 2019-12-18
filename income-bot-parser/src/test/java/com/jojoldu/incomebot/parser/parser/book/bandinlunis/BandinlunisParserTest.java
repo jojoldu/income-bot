@@ -33,6 +33,18 @@ public class BandinlunisParserTest {
     }
 
     @Test
+    public void 메세지포맷_확인() {
+        //given
+        String url = "http://www.bandinlunis.com/front/product/detailProduct.do?prodId=4296899";
+
+        //when
+        BandinlunisParseResult parseResult = parser.parse(url);
+
+        //then
+        System.out.println(parseResult.getMessage(640, 0, "스프링 부트와 AWS로 혼자 구현하는 웹 서비스"));
+    }
+
+    @Test
     public void 랭킹이없으면_0이반환된다() {
         //given
         String url = "http://www.bandinlunis.com/front/product/detailProduct.do?prodId=4296899";
