@@ -3,10 +3,7 @@
         <div class="card-header border-0">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="mb-0">Page visits</h3>
-                </div>
-                <div class="col text-right">
-                    <a class="btn btn-sm btn-primary" href="#!">See all</a>
+                    <h3 class="mb-0">{{title}}별 지표</h3>
                 </div>
             </div>
         </div>
@@ -15,9 +12,9 @@
             <base-table :data="tableData"
                         thead-classes="thead-light">
                 <template slot="columns">
-                    <th>Page name</th>
-                    <th>Visitors</th>
-                    <th>Unique users</th>
+                    <th>{{title}}명</th>
+                    <th>순위</th>
+                    <th>판매지수</th>
                     <th>Bounce rate</th>
                 </template>
 
@@ -49,6 +46,7 @@
         name: 'page-visits-table',
         data() {
             return {
+                title: '출판사',
                 tableData: [
                     {
                         page: '/argon/',
