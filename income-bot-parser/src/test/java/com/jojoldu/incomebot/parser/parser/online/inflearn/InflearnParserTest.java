@@ -44,5 +44,6 @@ public class InflearnParserTest {
         //then
         log.info("coursePrice= " + coursePrice);
         assertThat(coursePrice).isGreaterThanOrEqualTo(1_000);
+        assertThat(coursePrice).isLessThan(10_000_000);
     }
 }

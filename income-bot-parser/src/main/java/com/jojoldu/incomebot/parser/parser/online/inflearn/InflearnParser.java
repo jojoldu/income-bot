@@ -50,7 +50,7 @@ public class InflearnParser implements LectureParser<InflearnParseResult> {
         }
 
         Element section = elements.get(0);
-        String content = section.text();
+        String content = section.childNodes().get(0).outerHtml();
         return parseLong(content.replaceAll("\\D+", ""));
     }
 }
