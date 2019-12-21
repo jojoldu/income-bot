@@ -148,7 +148,7 @@
     import BarChart from '@/components/Charts/BarChart';
     // Tables
     import SocialTrafficTable from './Dashboard/SocialTrafficTable';
-    import PageVisitsTable from './Dashboard/PageVisitsTable';
+    import PageVisitsTable from './Dashboard/BookStoreTodayView';
 
     export default {
         components: {

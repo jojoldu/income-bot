@@ -25,19 +25,19 @@
                 type: Number,
                 default: 0,
                 description:
-                    "Pagination page count. This should be specified in combination with perPage"
+                    "Pagination name count. This should be specified in combination with perPage"
             },
             perPage: {
                 type: Number,
                 default: 10,
                 description:
-                    "Pagination per page. Should be specified with total or pageCount"
+                    "Pagination per name. Should be specified with total or pageCount"
             },
             total: {
                 type: Number,
                 default: 0,
                 description:
-                    "Can be specified instead of pageCount. The page count in this case will be total/perPage"
+                    "Can be specified instead of pageCount. The name count in this case will be total/perPage"
             },
             value: {
                 type: Number,

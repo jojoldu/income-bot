@@ -3,34 +3,35 @@
         <div class="card-header border-0">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="mb-0">{{title}}별 지표</h3>
+                    <h3 class="mb-0">출판사별 지표 </h3>
+                    <p>{{title}}</p>
                 </div>
             </div>
         </div>
 
         <div class="table-responsive">
-            <base-table :data="tableData"
+            <base-table :data="bookStores"
                         thead-classes="thead-light">
                 <template slot="columns">
-                    <th>{{title}}명</th>
+                    <th>출판사</th>
                     <th>순위</th>
                     <th>판매지수</th>
-                    <th>Bounce rate</th>
+                    <th>증감률</th>
                 </template>
 
                 <template slot-scope="{row}">
                     <th scope="row">
-                        {{row.page}}
+                        {{row.name}}
                     </th>
                     <td>
-                        {{row.visitors}}
+                        {{row.salesPoint}}
                     </td>
                     <td>
-                        {{row.unique}}
+                        {{row.rank}}
                     </td>
                     <td>
-                        <i :class="row.bounceRateDirection === 'up' ? 'text-success': 'text-danger'"
-                           class="fas fa-arrow-up text-success mr-3">
+                        <i :class="row.bounceRateDirection === 'up' ? 'text-success': 'text-primary'"
+                           class="fas fa-arrow-up mr-3">
                         </i>
                         {{row.bounceRate}}
                     </td>
@@ -43,43 +44,43 @@
 </template>
 <script>
     export default {
-        name: 'page-visits-table',
+        name: 'name-visits-table',
         data() {
             return {
-                title: '출판사',
-                tableData: [
+                title: '스프링 부트와 AWS로 혼자 구현하는 웹 서비스',
+                bookStores: [
                     {
-                        page: '/argon/',
-                        visitors: '4,569',
-                        unique: '340',
+                        name: '/argon/',
+                        rank: '340',
+                        salesPoint: '4,569',
                         bounceRate: '46,53%',
                         bounceRateDirection: 'up'
                     },
                     {
-                        page: '/argon/index.html',
-                        visitors: '3,985',
-                        unique: '319',
+                        name: '/argon/index.html',
+                        rank: '319',
+                        salesPoint: '3,985',
                         bounceRate: '46,53%',
                         bounceRateDirection: 'down'
                     },
                     {
-                        page: '/argon/charts.html',
-                        visitors: '3,513',
-                        unique: '294',
+                        name: '/argon/charts.html',
+                        rank: '294',
+                        salesPoint: '3,513',
                         bounceRate: '36,49%',
                         bounceRateDirection: 'down'
                     },
                     {
-                        page: '/argon/tables.html',
-                        visitors: '2,050',
-                        unique: '147',
+                        name: '/argon/tables.html',
+                        rank: '147',
+                        salesPoint: '2,050',
                         bounceRate: '50,87%',
                         bounceRateDirection: 'up'
                     },
                     {
-                        page: '/argon/profile.html',
-                        visitors: '1,795',
-                        unique: '190',
+                        name: '/argon/profile.html',
+                        rank: '190',
+                        salesPoint: '1,795',
                         bounceRate: '46,53%',
                         bounceRateDirection: 'down'
                     }
