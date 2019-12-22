@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    include:
+      - core
+    active: local
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.springframework.batch.item.database.JpaItemWriter: debug
+
+---
+spring:
+  profiles: local
+
+---
+spring:
+  profiles: real

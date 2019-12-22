@@ -39,4 +39,12 @@ public class LectureScore {
     public boolean isUpdatable(long newScore) {
         return this.currentScore != newScore;
     }
+
+    public long getBounce() {
+        return currentScore - beforeScore;
+    }
+
+    public double getBounceRate() {
+        return (double) getBounce() / (double) beforeScore;
+    }
 }

@@ -119,8 +119,24 @@ public class BookLectureStore extends BaseTimeEntity {
         return score.getCurrentScore();
     }
 
+    public long getBeforeScore() {
+        return score.getBeforeScore();
+    }
+
+    public double getBounceRate() {
+        return score.getBounce();
+    }
+
     public int getCurrentRank() {
         return rank.getCurrentRank();
+    }
+
+    public int getBeforeRank() {
+        return rank.getBeforeRank();
+    }
+
+    public int getBounceRank() {
+        return rank.getBounce();
     }
 
     public Long getChatId() {

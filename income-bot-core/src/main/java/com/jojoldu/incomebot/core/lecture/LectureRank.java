@@ -39,4 +39,8 @@ public class LectureRank {
     public boolean isUpdatable(int newRank) {
         return this.currentRank != newRank;
     }
+
+    public int getBounce() {
+        return currentRank - beforeRank;
+    }
 }
