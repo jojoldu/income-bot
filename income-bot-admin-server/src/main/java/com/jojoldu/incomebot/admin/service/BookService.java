@@ -31,7 +31,6 @@ public class BookService {
         return bookLectureRepository.findById(bookLectureId)
                 .map(bookLecture -> bookLecture.getStores().stream().map(BookScoreDto::new).collect(toList()))
                 .orElseGet(ArrayList::new);
-
     }
 
 }

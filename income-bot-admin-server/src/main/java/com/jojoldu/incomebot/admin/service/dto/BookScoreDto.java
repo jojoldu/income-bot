@@ -30,6 +30,6 @@ public class BookScoreDto {
         this.bounceRankDirection = is(bounceRank);
         this.salesPoint = store.getCurrentScore();
         this.bounceRate = store.getBounceRate();
-        this.bounceRankDirection = is(bounceRate);
+        this.bounceRateDirection = is(bounceRate);
     }
 }
