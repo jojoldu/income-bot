@@ -15,8 +15,9 @@
                 <template slot="columns">
                     <th>출판사</th>
                     <th>순위</th>
+                    <th>순위 증감</th>
                     <th>판매지수</th>
-                    <th>증감률</th>
+                    <th>판매지수 증감률</th>
                 </template>
 
                 <template slot-scope="{row}">
@@ -24,15 +25,19 @@
                         {{row.name}}
                     </th>
                     <td>
-                        {{row.salesPoint}}
-                    </td>
-                    <td>
                         {{row.rank}}
                     </td>
                     <td>
-                        <i :class="row.bounceRateDirection === 'up' ? 'text-success': 'text-primary'"
-                           class="fas fa-arrow-up mr-3">
-                        </i>
+                        <i :class="row.bounceRankDirection === 'UP' ? 'text-success fa-arrow-up': 'text-primary fa-arrow-down'"
+                           class="fas mr-3"></i>
+                        {{row.bounceRank}}
+                    </td>
+                    <td>
+                        {{row.salesPoint}}
+                    </td>
+                    <td>
+                        <i :class="row.bounceRateDirection === 'UP' ? 'text-success fa-arrow-up': 'text-primary fa-arrow-down'"
+                           class="fas mr-3"></i>
                         {{row.bounceRate}}
                     </td>
                 </template>
@@ -43,49 +48,19 @@
     </div>
 </template>
 <script>
+    import {fetchBookStores} from '../../api/index'
+
     export default {
-        name: 'name-visits-table',
+        name: 'book-store-score-table',
         data() {
             return {
                 title: '스프링 부트와 AWS로 혼자 구현하는 웹 서비스',
-                bookStores: [
-                    {
-                        name: '/argon/',
-                        rank: '340',
-                        salesPoint: '4,569',
-                        bounceRate: '46,53%',
-                        bounceRateDirection: 'up'
-                    },
-                    {
-                        name: '/argon/index.html',
-                        rank: '319',
-                        salesPoint: '3,985',
-                        bounceRate: '46,53%',
-                        bounceRateDirection: 'down'
-                    },
-                    {
-                        name: '/argon/charts.html',
-                        rank: '294',
-                        salesPoint: '3,513',
-                        bounceRate: '36,49%',
-                        bounceRateDirection: 'down'
-                    },
-                    {
-                        name: '/argon/tables.html',
-                        rank: '147',
-                        salesPoint: '2,050',
-                        bounceRate: '50,87%',
-                        bounceRateDirection: 'up'
-                    },
-                    {
-                        name: '/argon/profile.html',
-                        rank: '190',
-                        salesPoint: '1,795',
-                        bounceRate: '46,53%',
-                        bounceRateDirection: 'down'
-                    }
-                ]
+                bookStores: []
             }
+        },
+        async created() {
+            const {data} = await fetchBookStores(1);
+            this.bookStores = data.data
         }
     }
 </script>

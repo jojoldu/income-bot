@@ -12,6 +12,7 @@ module.exports = {
   },
   configureWebpack: {
     // Set up all the aliases we use in our app.
+    // devtool: 'eval-source-map',
     plugins: [
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 6
