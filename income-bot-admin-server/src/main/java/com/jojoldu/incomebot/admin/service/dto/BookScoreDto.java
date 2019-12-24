@@ -24,7 +24,7 @@ public class BookScoreDto {
     private BounceRateDirection bounceRateDirection;
 
     public BookScoreDto(BookLectureStore store) {
-        this.name = store.getTitle();
+        this.name = store.getStoreType().getTitle();
         this.rank = store.getCurrentRank();
         this.bounceRank = store.getBounceRank();
         this.bounceRankDirection = is(bounceRank);
