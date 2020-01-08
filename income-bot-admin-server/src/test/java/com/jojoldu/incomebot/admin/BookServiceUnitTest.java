@@ -5,6 +5,7 @@ import com.jojoldu.incomebot.admin.service.dto.BookScoreDto;
 import com.jojoldu.incomebot.core.lecture.book.BookLecture;
 import com.jojoldu.incomebot.core.lecture.book.BookLectureRepository;
 import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStore;
+import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,6 +62,7 @@ public class BookServiceUnitTest {
                 .currentRank(expectedRank)
                 .beforeScore(0)
                 .currentScore(expectedSalesPoint)
+                .storeType(BookLectureStoreType.KYOBO)
                 .build();
     }
 }
