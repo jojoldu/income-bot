@@ -1,7 +1,7 @@
 package com.jojoldu.incomebot.parser.parser.book.bandinlunis;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,7 +14,7 @@ public class BandinlunisParserTest {
 
     private BandinlunisParser parser;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         parser = new BandinlunisParser();
     }
@@ -47,7 +47,7 @@ public class BandinlunisParserTest {
     @Test
     public void 랭킹이없으면_0이반환된다() {
         //given
-        String url = "http://www.bandinlunis.com/front/product/detailProduct.do?prodId=4296899";
+        String url = "http://www.bandinlunis.com/front/product/detailProduct.do?prodId=4233553";
 
         //when
         BandinlunisParseResult parseResult = parser.parse(url);

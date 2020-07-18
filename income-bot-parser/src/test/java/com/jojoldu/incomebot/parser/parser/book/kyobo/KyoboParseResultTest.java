@@ -1,7 +1,7 @@
 package com.jojoldu.incomebot.parser.parser.book.kyobo;
 
 import com.jojoldu.incomebot.parser.parser.book.BookParseMessage;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -7,9 +7,10 @@ import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.instructor.InstructorRepository;
 import com.jojoldu.incomebot.core.lecture.online.OnlineLecture;
 import com.jojoldu.incomebot.core.lecture.online.store.OnlineLectureStore;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.StepExecution;
@@ -19,7 +20,7 @@ import org.springframework.batch.test.MetaDataInstanceFactory;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.util.Arrays;
 
@@ -33,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Blog : http://jojoldu.tistory.com
  * Github : http://github.com/jojoldu
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBatchTest
 @SpringBootTest(classes={NotifyJobConfiguration.class, TestBatchConfig.class})
 public class NotifyJobConfigurationReaderTest {
@@ -48,7 +49,7 @@ public class NotifyJobConfigurationReaderTest {
     @Autowired
     private InstructorRepository instructorRepository;
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         instructorRepository.deleteAll();
     }

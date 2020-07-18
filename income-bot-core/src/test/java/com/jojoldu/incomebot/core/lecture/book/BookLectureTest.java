@@ -3,12 +3,12 @@ package com.jojoldu.incomebot.core.lecture.book;
 import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStore;
 import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreRepository;
 import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType.KYOBO;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Github : http://github.com/jojoldu
  */
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class BookLectureTest {
 
@@ -29,7 +29,7 @@ public class BookLectureTest {
     @Autowired
     private BookLectureStoreRepository bookLectureStoreRepository;
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         bookLectureRepository.deleteAll();
     }

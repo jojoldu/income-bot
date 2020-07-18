@@ -21,10 +21,11 @@ import com.jojoldu.incomebot.parser.parser.LectureParseExecutor;
 import com.jojoldu.incomebot.parser.parser.book.kyobo.KyoboParseResult;
 import com.jojoldu.incomebot.parser.parser.book.yes24.Yes24ParseResult;
 import com.jojoldu.incomebot.parser.parser.online.inflearn.InflearnParseResult;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
@@ -34,7 +35,7 @@ import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.util.List;
 
@@ -51,7 +52,7 @@ import static org.mockito.BDDMockito.given;
  * Blog : http://jojoldu.tistory.com
  * Github : http://github.com/jojoldu
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBatchTest
 @SpringBootTest(classes={NotifyJobConfiguration.class, TestBatchConfig.class})
 public class NotifyJobConfigurationTest {
@@ -83,12 +84,12 @@ public class NotifyJobConfigurationTest {
 
     private Instructor instructor;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         instructor = Instructor.signup(123);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         instructorRepository.deleteAll();
     }

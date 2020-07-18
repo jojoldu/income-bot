@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.2.RELEASE' apply false
-    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+    id 'org.springframework.boot' version '2.3.1.RELEASE' apply false
+    id "io.spring.dependency-management" version "1.0.9.RELEASE"
     id 'java'
     id 'com.gorylenko.gradle-git-properties' version '2.2.0'
 }
@@ -30,11 +30,9 @@ subprojects {
         testAnnotationProcessor 'org.projectlombok:lombok'
         testImplementation 'org.projectlombok:lombok'
 
-        implementation 'org.springframework.boot:spring-boot-starter'
-
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
-        testImplementation 'org.spockframework:spock-core:1.2-groovy-2.4'
-        testImplementation 'org.spockframework:spock-spring:1.2-groovy-2.4'
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
     }
 
     configurations {
@@ -43,9 +41,7 @@ subprojects {
         }
     }
 
-    dependencyManagement {
-        imports {
-            mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-        }
+    test {
+        useJUnitPlatform()
     }
 }

@@ -37,15 +37,12 @@ spring:
 
   datasource:
     hikari:
-      jdbc-url: $JDBC_URL
+      jdbc-url: jdbc:mariadb://$JDBC_URL:3306/income_bot?connectTimeout=1000&socketTimeout=58000&useSSL=false
       username: jojoldu
       password: $JDBC_PASSWORD
       driver-class-name: org.mariadb.jdbc.Driver
-      idleTimeout: 600000      #10m
-      maxLifetime: 1800000     #30m
-      minimumIdle: 4
+      idleTimeout: 60000      #1m
+      maxLifetime: 55000      #55s
+      connectionTimeout: 2000
       maximumPoolSize: 15
-      data-source-properties:
-        connect-timeout: 30000
-        socket-timeout: 60000
 

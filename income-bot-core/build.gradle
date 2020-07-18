@@ -10,7 +10,6 @@ dependencies {
     compile 'com.querydsl:querydsl-jpa'
     compile 'com.querydsl:querydsl-apt'
     compile 'com.h2database:h2'
-    compile 'mysql:mysql-connector-java'
     compile 'org.mariadb.jdbc:mariadb-java-client'
 }
 

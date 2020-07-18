@@ -6,8 +6,8 @@ import com.jojoldu.incomebot.core.lecture.book.BookLecture;
 import com.jojoldu.incomebot.core.lecture.book.BookLectureRepository;
 import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStore;
 import com.jojoldu.incomebot.core.lecture.book.store.BookLectureStoreType;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class BookServiceUnitTest {
     private BookLectureRepository repository;
     private BookService service;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         repository = mock(BookLectureRepository.class);
         service = new BookService(repository);

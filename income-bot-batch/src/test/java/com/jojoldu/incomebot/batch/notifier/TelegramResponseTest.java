@@ -3,8 +3,8 @@ package com.jojoldu.incomebot.batch.notifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jojoldu.incomebot.batch.config.AppConfig;
 import com.jojoldu.incomebot.batch.telegram.TelegramResponse;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ public class TelegramResponseTest {
 
     private ObjectMapper objectMapper;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         objectMapper = new AppConfig().objectMapper();
     }

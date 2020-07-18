@@ -1,6 +1,6 @@
 package com.jojoldu.incomebot.core;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Blog : http://jojoldu.tistory.com
  * Github : http://github.com/jojoldu
  */
-public class MapTest {
+class MapTest {
 
     @Test
     public void map키_테스트() {

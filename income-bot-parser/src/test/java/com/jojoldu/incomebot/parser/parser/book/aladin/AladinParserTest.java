@@ -1,7 +1,7 @@
 package com.jojoldu.incomebot.parser.parser.book.aladin;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,7 +14,7 @@ public class AladinParserTest {
 
     private AladinParser parser;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         parser = new AladinParser();
     }
@@ -28,6 +28,6 @@ public class AladinParserTest {
         String result = parser.getProductLinkByISBN(isbn);
 
         //then
-        assertThat(result).isEqualTo("http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=218568947");
+        assertThat(result).contains("ItemId=218568947");
     }
 }

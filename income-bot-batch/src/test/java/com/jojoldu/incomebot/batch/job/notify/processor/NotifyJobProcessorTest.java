@@ -12,8 +12,8 @@ import com.jojoldu.incomebot.core.lecture.online.store.history.OnlineLectureStor
 import com.jojoldu.incomebot.parser.parser.LectureParseExecutor;
 import com.jojoldu.incomebot.parser.parser.online.OnlineParseResult;
 import com.jojoldu.incomebot.parser.parser.online.inflearn.InflearnParseResult;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -36,7 +36,7 @@ public class NotifyJobProcessorTest {
     private OnlineNotifyJobProcessor processor;
     private Instructor instructor;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         processor = new OnlineNotifyJobProcessor();
         processor.setTelegramNotifier(new StubTelegramNotifier());
