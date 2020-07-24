@@ -5,7 +5,7 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL57Dialect
       hibernate.hbm2ddl.import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
-      hibernate.default_batch_fetch_size: ${chunkSize:1000}
+      hibernate.default_batch_fetch_size: ${chunkSize:100}
       hibernate.query.in_clause_parameter_padding: true
     open-in-view: false
   datasource:
@@ -37,12 +37,12 @@ spring:
 
   datasource:
     hikari:
-      jdbc-url: jdbc:mariadb://$JDBC_URL:3306/income_bot?connectTimeout=1000&socketTimeout=58000&useSSL=false
+      jdbc-url: jdbc:mysql://$JDBC_URL:3306/income_bot?connectTimeout=1000&socketTimeout=58000&useSSL=false
       username: jojoldu
       password: $JDBC_PASSWORD
       driver-class-name: org.mariadb.jdbc.Driver
-      idleTimeout: 60000      #1m
-      maxLifetime: 55000      #55s
-      connectionTimeout: 2000
-      maximumPoolSize: 15
+      idleTimeout: 30000      #30s
+      maxLifetime: 58000     #58s
+      connectionTimeout: 3000 # 3s
+      maximumPoolSize: 30
 
