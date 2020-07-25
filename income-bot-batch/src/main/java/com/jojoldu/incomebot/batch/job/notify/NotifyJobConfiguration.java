@@ -1,7 +1,6 @@
 package com.jojoldu.incomebot.batch.job.notify;
 
 import com.jojoldu.incomebot.batch.common.JpaItemListWriter;
-import com.jojoldu.incomebot.batch.common.QuerydslPagingItemReader;
 import com.jojoldu.incomebot.batch.job.JobChunkSize;
 import com.jojoldu.incomebot.batch.job.notify.parameter.NotifyJobParameter;
 import com.jojoldu.incomebot.batch.job.notify.processor.BookNotifyJobProcessor;
@@ -19,6 +18,9 @@ import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.database.JpaItemWriter;
+import org.springframework.batch.item.querydsl.reader.QuerydslNoOffsetPagingItemReader;
+import org.springframework.batch.item.querydsl.reader.expression.Expression;
+import org.springframework.batch.item.querydsl.reader.options.QuerydslNoOffsetNumberOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -76,11 +78,15 @@ public class NotifyJobConfiguration {
 
     @Bean(BEAN_PREFIX + "bookReader")
     @StepScope
-    public QuerydslPagingItemReader<BookLecture> bookReader() {
-        return new QuerydslPagingItemReader<>(emf, jobChunkSize.getChunkSize(), queryFactory -> queryFactory
+    public QuerydslNoOffsetPagingItemReader<BookLecture> bookReader() {
+        // 1. No Offset Option
+        QuerydslNoOffsetNumberOptions<BookLecture, Long> options =
+                new QuerydslNoOffsetNumberOptions<>(bookLecture.id, Expression.ASC);
+
+        return new QuerydslNoOffsetPagingItemReader<>(emf, jobChunkSize.getChunkSize(), options, queryFactory -> queryFactory
                 .select(bookLecture)
                 .from(bookLecture)
-                .join(bookLecture.instructor, instructor).fetchJoin()
+                .join(bookLecture.instructor, instructor)
                 .join(bookLecture.stores)
                 .where(instructor.intervalType.eq(jobParameter.getInterval()))
         );
@@ -112,11 +118,15 @@ public class NotifyJobConfiguration {
 
     @Bean(BEAN_PREFIX + "onlineReader")
     @StepScope
-    public QuerydslPagingItemReader<OnlineLecture> onlineReader() {
-        return new QuerydslPagingItemReader<>(emf, jobChunkSize.getChunkSize(), queryFactory -> queryFactory
+    public QuerydslNoOffsetPagingItemReader<OnlineLecture> onlineReader() {
+        // 1. No Offset Option
+        QuerydslNoOffsetNumberOptions<OnlineLecture, Long> options =
+                new QuerydslNoOffsetNumberOptions<>(onlineLecture.id, Expression.ASC);
+
+        return new QuerydslNoOffsetPagingItemReader<>(emf, jobChunkSize.getChunkSize(), options, queryFactory -> queryFactory
                 .select(onlineLecture)
                 .from(onlineLecture)
-                .join(onlineLecture.instructor, instructor).fetchJoin()
+                .join(onlineLecture.instructor, instructor)
                 .join(onlineLecture.stores)
                 .where(instructor.intervalType.eq(jobParameter.getInterval()))
         );

@@ -8,6 +8,8 @@ dependencies {
     implementation 'org.springframework:spring-web' // RestTemplate
     implementation 'org.jsoup:jsoup:1.12.1' // html parser
 
+    implementation 'com.github.jojoldu.spring-batch-querydsl:spring-batch-querydsl-reader:2.3.3'
+
     testImplementation 'org.springframework.batch:spring-batch-test'
 }
 

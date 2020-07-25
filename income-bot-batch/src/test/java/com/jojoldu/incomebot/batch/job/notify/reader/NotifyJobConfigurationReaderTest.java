@@ -1,7 +1,6 @@
 package com.jojoldu.incomebot.batch.job.notify.reader;
 
 import com.jojoldu.incomebot.TestBatchConfig;
-import com.jojoldu.incomebot.batch.common.QuerydslPagingItemReader;
 import com.jojoldu.incomebot.batch.job.notify.NotifyJobConfiguration;
 import com.jojoldu.incomebot.core.instructor.Instructor;
 import com.jojoldu.incomebot.core.instructor.InstructorRepository;
@@ -10,17 +9,17 @@ import com.jojoldu.incomebot.core.lecture.online.store.OnlineLectureStore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.querydsl.reader.QuerydslNoOffsetPagingItemReader;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.MetaDataInstanceFactory;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 
@@ -44,7 +43,7 @@ public class NotifyJobConfigurationReaderTest {
     private JobLauncherTestUtils jobLauncherTestUtils;
 
     @Autowired
-    private QuerydslPagingItemReader<OnlineLecture> reader;
+    private QuerydslNoOffsetPagingItemReader<OnlineLecture> reader;
 
     @Autowired
     private InstructorRepository instructorRepository;
