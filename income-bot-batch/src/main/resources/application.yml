@@ -7,13 +7,26 @@ spring:
   batch.job.names: ${job.name:NONE}
 
 logging.level:
-  org.hibernate.SQL: debug
-  org.springframework.batch.item.database.JpaItemWriter: debug
-
+      org:
+        hibernate.SQL: debug
+        springframework:
+          batch:
+            item:
+              querydsl.reader: DEBUG
+              database.JpaItemWriter: debug
 ---
 spring:
   profiles: local
 
 ---
 spring:
+  profiles: local-real
+  profiles.include:
+      - real-test
+---
+spring:
   profiles: real
+
+  datasource:
+    hikari:
+      maximumPoolSize: 5

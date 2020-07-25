@@ -5,7 +5,8 @@ build/
 !**/src/main/**
 !**/src/test/**
 
-application-bot.yml
+application-real-test.yml
+
 TelegramNotifierTest.java
 NotifyJobConfigurationRealTest.java
 generated

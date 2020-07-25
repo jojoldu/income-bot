@@ -1,0 +1,16 @@
+telegram:
+  bot:
+    name: IncomeNotifier_bot
+---
+spring:
+  profiles: local
+telegram:
+  bot:
+    key: test
+---
+spring:
+  profiles: real
+
+telegram:
+  bot:
+    key: "!TELEGRAM_BOT_KEY"

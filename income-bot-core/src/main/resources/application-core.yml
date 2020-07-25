@@ -33,16 +33,28 @@ spring:
       ddl-auto: update
 ---
 spring:
-  profiles: real
+  profiles: local-real
 
   datasource:
     hikari:
-      jdbc-url: jdbc:mysql://!JDBC_URL:3306/income_bot?connectTimeout=1000&socketTimeout=58000&useSSL=false
       username: jojoldu
-      password: !JDBC_PASSWORD
       driver-class-name: org.mariadb.jdbc.Driver
       idleTimeout: 30000      #30s
       maxLifetime: 58000     #58s
       connectionTimeout: 3000 # 3s
-      maximumPoolSize: 30
+      maximumPoolSize: 20
+---
+spring:
+  profiles: real
+
+  datasource:
+    hikari:
+      jdbc-url: "jdbc:mysql://!JDBC_URL:3306/income_bot?connectTimeout=1000&socketTimeout=58000&useSSL=false"
+      username: jojoldu
+      password: "!JDBC_PASSWORD"
+      driver-class-name: org.mariadb.jdbc.Driver
+      idleTimeout: 30000      #30s
+      maxLifetime: 58000     #58s
+      connectionTimeout: 3000 # 3s
+      maximumPoolSize: 20
 

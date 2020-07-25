@@ -42,7 +42,7 @@ public class Yes24ParserTest {
         String result = parser.getProductLinkByISBN(isbn);
 
         //then
-        assertThat(result).isEqualTo("http://www.yes24.com/Product/Goods/83849117?scode=032&OzSrank=1");
+        assertThat(result).contains("http://www.yes24.com/Product/Goods/83849117");
     }
 
     @Test
